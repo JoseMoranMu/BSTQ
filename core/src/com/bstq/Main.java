@@ -5,7 +5,7 @@ import com.badlogic.gdx.Game;
 public class Main extends Game {
 	private com.bstq.view.MainMenu main;
 	@Override
-	//Main hola
+	//Main hola sf sd
 	public void create () {
 		main= new com.bstq.view.MainMenu(this);
 		setScreen(main);
