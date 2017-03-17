@@ -14,34 +14,37 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class Barril extends Actor {
     private Texture imagen;
-    boolean right,left,up,down;
-    public Barril(Texture imagen){
-        right=false;
+    boolean right, left, up, down;
+
+    public Barril(Texture imagen) {
+        right = false;
         left = false;
         up = false;
         down = false;
-        this.imagen=imagen;
-        setSize(imagen.getWidth(),imagen.getHeight());
+        this.imagen = imagen;
+        setSize(imagen.getWidth(), imagen.getHeight());
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(imagen,getX(),getY());
+        batch.draw(imagen, getX(), getY());
     }
 
     @Override
     public void act(float delta) {
-        if(left)setX(getX()-225*delta);
+        if (left) setX(getX() - 225 * delta);
     }
 
-    public void setRight(boolean right){
-        this.right=right;
+    public void setRight(boolean right) {
+        this.right = right;
     }
-    public void setLeft(boolean left){
-        this.left=left;
-    }
-    public void move(){
 
-        //this.addAction(moveBy(51, 0));
+    public void setLeft(boolean left) {
+        this.left = left;
+    }
+
+    public void move() {
+
+        //this.addAction(moveBy(51, 0))
     }
 }
