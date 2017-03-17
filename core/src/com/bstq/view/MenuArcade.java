@@ -20,7 +20,7 @@ public class MenuArcade extends Menu {
     final Main main;
     Button lvl1;
     Stage stage;
-    int k=Input.Keys.BACK;
+
     public MenuArcade(Main main){
         Gdx.input.setCatchBackKey(true);
         this.main=main;

@@ -2,10 +2,13 @@ package com.bstq.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
@@ -14,9 +17,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
 import com.bstq.view.MenuArcade;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 /**
  * Created by Jose on 07/03/2017.
@@ -33,7 +39,7 @@ public class PlayGameScreen extends TableGame {
     Actor a;
     float delta;
     Table t;
-    int k=Input.Keys.BACK;
+
     public PlayGameScreen(final Main main){
         Gdx.input.setCatchBackKey(true);
 
@@ -58,7 +64,8 @@ public class PlayGameScreen extends TableGame {
         lvl1.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                comprobaciones(delta);
+                b.move();
+                //comprobaciones(delta);
                 return false;
             }
         });
@@ -90,7 +97,6 @@ public class PlayGameScreen extends TableGame {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-
     }
 
     @Override
