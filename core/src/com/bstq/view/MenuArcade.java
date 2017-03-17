@@ -20,6 +20,7 @@ public class MenuArcade extends Menu {
     final Main main;
     Button lvl1;
     Stage stage;
+    PlayGameScreen pgs;
 
     public MenuArcade(Main main){
         Gdx.input.setCatchBackKey(true);
@@ -34,7 +35,7 @@ public class MenuArcade extends Menu {
         lvl1.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                PlayGameScreen pgs = new PlayGameScreen(main);
+                pgs = new PlayGameScreen(main);
                 main.setScreen(pgs);
 
             }
