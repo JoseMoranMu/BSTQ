@@ -21,7 +21,7 @@ public class MenuArcade extends Menu {
     Button lvl1;
     Stage stage;
     PlayGameScreen pgs;
-
+//Prueba
     public MenuArcade(Main main){
         Gdx.input.setCatchBackKey(true);
         this.main=main;
