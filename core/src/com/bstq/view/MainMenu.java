@@ -1,7 +1,6 @@
 package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -41,7 +40,24 @@ public class MainMenu extends Menu{
                 main.setScreen(new MenuArcade(main));
             }
         });
-
+        survivor.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                main.setScreen(new MenuSurvivor(main));
+            }
+        });
+        multiplayer.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                main.setScreen(new MenuMultiplayer(main));
+            }
+        });
+        settings.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                main.setScreen(new MenuGeneralSettings(main));
+            }
+        });
     }
 
     private void prepareButtons() {
@@ -77,7 +93,6 @@ public class MainMenu extends Menu{
     @Override
     public void dispose() {
         stage.dispose();
-
     }
 
 }
