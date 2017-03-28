@@ -7,7 +7,7 @@ import com.bstq.Main;
  * Created by alumne on 24/03/2017.
  */
 
-class ScreenSearchPlayer extends Menu {
+public class ScreenSearchPlayer extends Menu {
     public ScreenSearchPlayer(Main main) {
     }
 }

@@ -13,7 +13,7 @@ import com.bstq.Main;
  * Created by alumne on 24/03/2017.
  */
 
-class MenuMultiplayer extends Menu{
+public class MenuMultiplayer extends Menu{
     final Main main;
     Button soundSettings,searchPlayer;
     Stage stage;

@@ -13,7 +13,7 @@ import com.bstq.Main;
  * Created by alumne on 24/03/2017.
  */
 
-class MenuSurvivor extends Menu {
+public class MenuSurvivor extends Menu {
     final Main main;
     Button selectStage, survivorRanking, soundSettings;
     Stage stage;
