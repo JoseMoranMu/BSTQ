@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -39,7 +40,7 @@ public class PlayGameScreen extends TableGame {
     Table t,tc;
     SpriteBatch sb;
     Barril bar;
-    Button b;
+    Button b,br;
     TextButton bt;
     public PlayGameScreen(final Main main){
         Gdx.input.setCatchBackKey(true);
@@ -48,7 +49,6 @@ public class PlayGameScreen extends TableGame {
         ButtonHandler bh = new ButtonHandler();
         lvl1=bh.getButton(new Texture(Gdx.files.internal("level-1.png")),300,1300);
         stage = new Stage();
-        stage.setDebugAll(true);
       // casilla1 = new Casilla(casillaTextura,100,1000);
         createTableGame();
         createTableContent();
@@ -57,15 +57,26 @@ public class PlayGameScreen extends TableGame {
         stage.addActor(t);
         stage.addActor(tc);
         stage.addActor(b);
+        stage.addActor(br);
     }
 
     private void createTableButtons() {
         ButtonHandler bh = new ButtonHandler();
-        b=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),900,1100);
+        b=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),850,1100);
         b.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                bar.setPosition(900,1100);
+                System.out.println("pulsa");
+                bar.move(850,1100);
+                return false;
+            }
+        });
+        br=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),100,1100);
+        br.addCaptureListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                System.out.println("pulsa");
+                bar.move(100,1100);
                 return false;
             }
         });
@@ -82,13 +93,12 @@ public class PlayGameScreen extends TableGame {
 
     private void createTableGame() {
         t = new Table();
-        t.setColor(Color.GREEN);
         casillaTextura = new Texture("casillafin.png");
-        for(int i=1100;i>=300;i=i-150){
-            for(int p=100;p<=900;p=p+150){
+        for(int i=1100;i>=350;i=i-150){
+            for(int p=100;p<=850;p=p+150){
+                System.out.println(p+" "+i);
                 t.add(new Casilla(casillaTextura,p,i));
             }
-
         }
     }
 

@@ -80,7 +80,7 @@ public class MainMenu extends Menu{
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-        stage.dispose();
+         stage.dispose();
 
     }
 
@@ -90,7 +90,7 @@ public class MainMenu extends Menu{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        //BackButton();
+        BackButton();
     }
 
     private void BackButton() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
@@ -32,4 +33,19 @@ public class Barril extends Actor {
         batch.draw(imagen,x,y);
     }
 
+    @Override
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    @Override
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void move(float x, float y) {
+       // this.addAction(Actions.moveTo(100,1100,100));
+        setX(x);
+        setY(y);
+    }
 }
