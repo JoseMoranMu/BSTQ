@@ -2,6 +2,7 @@ package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -21,6 +22,7 @@ public class MenuArcade extends Menu {
     Button lvl1;
     Stage stage;
     PlayGameScreen pgs;
+    Sound buttonsound;
 //Prueba
     public MenuArcade(Main main){
         Gdx.input.setCatchBackKey(true);
@@ -29,6 +31,7 @@ public class MenuArcade extends Menu {
         prepareButtons();
         prepareListeners();
         stage.addActor(lvl1);
+        buttonsound = Gdx.audio.newSound(Gdx.files.internal("sounds/menubutton.wav"));
     }
 
     private void prepareListeners() {
@@ -37,6 +40,7 @@ public class MenuArcade extends Menu {
             public void changed(ChangeEvent event, Actor actor) {
                 pgs = new PlayGameScreen(main);
                 main.setScreen(pgs);
+                buttonsound.play();
             }
         });
 
