@@ -1,6 +1,7 @@
 package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -57,6 +58,12 @@ public class MenuGeneralSettings extends Menu {
         soundSettings = bh.getButton(new Texture(Gdx.files.internal("boton-multiplayer.png")),300,900);
     }
 
+    private void BackButton() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            main.setScreen(new MainMenu(main));
+        }
+    }
+
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
@@ -69,6 +76,7 @@ public class MenuGeneralSettings extends Menu {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+        BackButton();
     }
 
     @Override

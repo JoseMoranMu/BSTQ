@@ -1,6 +1,7 @@
 package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -58,6 +59,12 @@ public class MainMenu extends Menu{
                 main.setScreen(new MenuGeneralSettings(main));
             }
         });
+        exit.addCaptureListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
     }
 
     private void prepareButtons() {
@@ -82,9 +89,16 @@ public class MainMenu extends Menu{
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
-
         stage.draw();
+        //BackButton();
     }
+
+    private void BackButton() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            Gdx.app.exit();
+        }
+    }
+
     @Override
     public void show(){
         Gdx.input.setInputProcessor(stage);

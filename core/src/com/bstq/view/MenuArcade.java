@@ -1,5 +1,6 @@
 package com.bstq.view;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -43,7 +44,6 @@ public class MenuArcade extends Menu {
                 buttonsound.play();
             }
         });
-
     }
 
     private void prepareButtons() {
@@ -63,13 +63,20 @@ public class MenuArcade extends Menu {
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
-
         stage.draw();
-
+        BackButton();
     }
+
+    private void BackButton() {
+        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+            main.setScreen(new MainMenu(main));
+        }
+    }
+
     @Override
     public void show(){
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
     }
     @Override
     public void dispose() {
