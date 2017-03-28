@@ -34,17 +34,16 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 public class PlayGameScreen extends TableGame {
     final Main main;
     Stage stage;
-    Texture bt;
     Texture casillaTextura;
-    Casilla casilla1,casilla2,casilla3,casilla4,casilla5,casilla6;
     Button lvl1;
-    Barril b;
-    Actor a;
-    Table t;
+    Table t,tc;
     SpriteBatch sb;
-    Image im;
+    Barril bar;
+    Button b;
+    TextButton bt;
     public PlayGameScreen(final Main main){
         Gdx.input.setCatchBackKey(true);
+        sb = new SpriteBatch();
         this.main=main;
         ButtonHandler bh = new ButtonHandler();
         lvl1=bh.getButton(new Texture(Gdx.files.internal("level-1.png")),300,1300);
@@ -52,14 +51,39 @@ public class PlayGameScreen extends TableGame {
         stage.setDebugAll(true);
       // casilla1 = new Casilla(casillaTextura,100,1000);
         createTableGame();
+        createTableContent();
+        createTableButtons();
         stage.addActor(lvl1);
         stage.addActor(t);
+        stage.addActor(tc);
+        stage.addActor(b);
+    }
+
+    private void createTableButtons() {
+        ButtonHandler bh = new ButtonHandler();
+        b=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),900,1100);
+        b.addCaptureListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                bar.setPosition(900,1100);
+                return false;
+            }
+        });
+    }
+
+    private void createTableContent() {
+        tc = new Table();
+        Texture tuerca = new Texture("Gear.png");
+        bar =new Barril(tuerca,100,1100);
+        tc.add(bar);
+
+
     }
 
     private void createTableGame() {
         t = new Table();
         t.setColor(Color.GREEN);
-        casillaTextura = new Texture("casilla.png");
+        casillaTextura = new Texture("casillafin.png");
         for(int i=1100;i>=300;i=i-150){
             for(int p=100;p<=900;p=p+150){
                 t.add(new Casilla(casillaTextura,p,i));
@@ -70,6 +94,7 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void show() {
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -77,6 +102,7 @@ public class PlayGameScreen extends TableGame {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         stage.act();
         stage.draw();
     }
@@ -106,6 +132,8 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void dispose() {
+        stage.dispose();
+        casillaTextura.dispose();
 
     }
 
