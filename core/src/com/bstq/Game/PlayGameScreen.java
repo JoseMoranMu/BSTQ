@@ -41,7 +41,7 @@ public class PlayGameScreen extends TableGame {
     SpriteBatch sb;
     Barril bar;
     Button b,br;
-    TextButton bt;
+
     public PlayGameScreen(final Main main){
         Gdx.input.setCatchBackKey(true);
         sb = new SpriteBatch();
@@ -66,7 +66,6 @@ public class PlayGameScreen extends TableGame {
         b.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                System.out.println("pulsa");
                 bar.move(850,1100);
                 return false;
             }
@@ -75,7 +74,6 @@ public class PlayGameScreen extends TableGame {
         br.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                System.out.println("pulsa");
                 bar.move(100,1100);
                 return false;
             }
@@ -85,7 +83,7 @@ public class PlayGameScreen extends TableGame {
     private void createTableContent() {
         tc = new Table();
         Texture tuerca = new Texture("Gear.png");
-        bar =new Barril(tuerca,100,1100);
+        bar =new Barril(tuerca,100,1100,1);
         tc.add(bar);
 
 

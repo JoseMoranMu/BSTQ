@@ -16,9 +16,11 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 public class Barril extends Actor {
     private Texture imagen;
     boolean right, left, up, down;
+    int id;
     float x;
     float y;
-    public Barril(Texture imagen, float x, float y) {
+    public Barril(Texture imagen, float x, float y,int id) {
+        this.id=id;
         right = false;
         left = false;
         up = false;
@@ -47,5 +49,8 @@ public class Barril extends Actor {
        // this.addAction(Actions.moveTo(100,1100,100));
         setX(x);
         setY(y);
+    }
+    public int getId(){
+        return id;
     }
 }
