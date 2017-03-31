@@ -90,13 +90,6 @@ public class MainMenu extends Menu{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-        BackButton();
-    }
-
-    private void BackButton() {
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            Gdx.app.exit();
-        }
     }
 
     @Override
