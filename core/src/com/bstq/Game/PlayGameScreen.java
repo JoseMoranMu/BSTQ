@@ -41,7 +41,7 @@ public class PlayGameScreen extends TableGame {
     SpriteBatch sb;
     Barril bar;
     Button b,br;
-
+    Tablero tablero;
     public PlayGameScreen(final Main main){
         Gdx.input.setCatchBackKey(true);
         sb = new SpriteBatch();
@@ -82,8 +82,29 @@ public class PlayGameScreen extends TableGame {
 
     private void createTableContent() {
         tc = new Table();
-        Texture tuerca = new Texture("Gear.png");
-        bar =new Barril(tuerca,100,1100,1);
+        Texture tuercaBlue = new Texture("GearBlue.png");
+        Texture tuercaRead = new Texture("GearRed.png");
+        tablero = new Tablero(6);
+        tablero.generateAllContent();
+        int a=0;
+        int b=0;
+        for(int i=1100;i>=350;i=i-150){
+            for(int p=100;p<=850;p=p+150){
+                if(tablero.getCell(a,b)==1){
+
+                    tc.add(new Barril(tuercaBlue,p,i,0));
+
+                }else if(tablero.getCell(a,b)==2){
+
+                    tc.add(new Barril(tuercaRead,p,i,0));
+
+                }
+                b++;
+            }
+            b=0;
+            a++;
+        }
+        System.out.println(a+" "+b);
         tc.add(bar);
 
 
