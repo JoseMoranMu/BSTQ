@@ -22,7 +22,7 @@ public class MenuArcade extends Menu {
     final Main main;
     Button lvl1;
     Stage stage;
-    PlayGameScreen pgs;
+    //PlayGameScreen pgs;
     Sound buttonsound;
 //Prueba
     public MenuArcade(Main main){
@@ -39,8 +39,8 @@ public class MenuArcade extends Menu {
         lvl1.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                pgs = new PlayGameScreen(main);
-                main.setScreen(pgs);
+                /*pgs = new PlayGameScreen(main);
+                main.setScreen(pgs);*/
                 buttonsound.play();
             }
         });

@@ -28,6 +28,7 @@ public class MenuSurvivor extends Menu {
         stage.addActor(selectStage);
         stage.addActor(survivorRanking);
         stage.addActor(soundSettings);
+        //stage.addActor(LoginMenu);
     }
 
     private void prepareButtons() {
@@ -41,7 +42,9 @@ public class MenuSurvivor extends Menu {
         selectStage.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new ScreenSelectStage(main));
+                //main.setScreen(new ScreenSelectStage(main));
+                main.setScreen(new LoginMenu(main));
+
             }
         });
         survivorRanking.addCaptureListener(new ChangeListener() {

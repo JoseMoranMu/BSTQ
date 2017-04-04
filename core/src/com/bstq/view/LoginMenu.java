@@ -41,6 +41,8 @@ public class LoginMenu extends Login {
     }
 
     private void prepareButtons() {
+        ButtonHandler bh = new ButtonHandler();
+        lvl1=bh.getButton(new Texture(Gdx.files.internal("level-1.png")),300,1300);
     }
 
     @Override
@@ -74,6 +76,15 @@ public class LoginMenu extends Login {
     public void dispose() {
         stage.dispose();
 
+    }
+
+    @Override
+    public void input (String text) {
+    }
+
+    @Override
+    public void canceled () {
+        System.out.println("holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     }
 
     /* https://github.com/libgdx/libgdx/wiki/File-handling
