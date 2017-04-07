@@ -42,44 +42,26 @@ public class PlayGameScreen extends TableGame {
     Table t,tc;
     SpriteBatch sb;
     Barril bar;
-    Button b,br;
     Tablero tablero;
+    SpriteBatch b;
     public PlayGameScreen(final Main main){
+        b= new SpriteBatch();
         Gdx.input.setCatchBackKey(true);
         sb = new SpriteBatch();
         this.main=main;
         ButtonHandler bh = new ButtonHandler();
         lvl1=bh.getButton(new Texture(Gdx.files.internal("level-1.png")),300,1300);
-        stage = new Stage();
+     //   stage = new Stage();
       // casilla1 = new Casilla(casillaTextura,100,1000);
         createTableGame();
         createTableContent();
         createTableButtons();
-        stage.addActor(lvl1);
-        stage.addActor(t);
-        stage.addActor(tc);
-        stage.addActor(b);
-        stage.addActor(br);
+       // stage.addActor(t);
+      //  stage.addActor(tc);
     }
 
     private void createTableButtons() {
-        ButtonHandler bh = new ButtonHandler();
-        b=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),850,1100);
-        b.addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                bar.move(850,1100);
-                return false;
-            }
-        });
-        br=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),100,1100);
-        br.addCaptureListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                bar.move(100,1100);
-                return false;
-            }
-        });
+
     }
 
     private void createTableContent() {
@@ -125,17 +107,20 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void show() {
-
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        b.begin();
+        t.draw(b,0f);
+        tc.draw(b,0f);
+        b.end();
 
-        stage.act();
-        stage.draw();
+       // stage.act();
+      //  stage.draw();
     }
 
     @Override
@@ -155,7 +140,8 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void hide() {
-        stage.dispose();
+     //   stage.dispose();
+        b.dispose();
         casillaTextura.dispose();
 
 
@@ -163,9 +149,30 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void dispose() {
-        stage.dispose();
+      //  stage.dispose();
+        b.dispose();
         casillaTextura.dispose();
 
     }
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
 
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        System.out.println("screenX: "+screenX+" screenY: "+screenY+" pointer: "+pointer);
+        Button b = new Button();
+        if(b.isPressed()){
+
+        }
+        return true;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        System.out.println("screenX: "+screenX+" screenY: "+screenY+" pointer: "+pointer);
+        return super.touchUp(screenX, screenY, pointer, button);
+    }
 }
