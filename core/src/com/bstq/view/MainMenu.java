@@ -35,6 +35,7 @@ public class MainMenu extends Menu{
     }
 
     private void prepareListeners() {
+
         arcade.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
