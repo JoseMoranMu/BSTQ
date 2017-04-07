@@ -65,7 +65,6 @@ public class PlayGameScreen extends TableGame {
     private void createTableButtons() {
         ButtonHandler bh = new ButtonHandler();
         b=bh.getButton(new Texture(Gdx.files.internal("transparente.png")),850,1100);
-        b.add
         b.addCaptureListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
