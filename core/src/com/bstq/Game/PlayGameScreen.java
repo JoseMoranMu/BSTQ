@@ -34,6 +34,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 public class PlayGameScreen extends TableGame {
     //SI TODO SALE MAL VOLVER
+    ///ESTO DESAÀRECERA
     final Main main;
     Stage stage;
     Texture casillaTextura;
