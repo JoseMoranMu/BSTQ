@@ -27,12 +27,19 @@ import static com.badlogic.gdx.graphics.profiling.GLProfiler.listener;
 
 
 
-public class LoginMenu extends Login {
+public class LoginMenu extends Menu  {
     final Main main;
     Button lvl1;
     Stage stage;
     //MyTextInputListener textInputListener;
     String txtUsername;
+    Login listener = new Login();
+
+    /*TextField textfield= new TextField("", skin);
+    textfield.setSize(300, 50);
+    textfield.setPosition((SCREEN.WIDTH/2) - textfield.getWidth()/2, 0)
+    */
+
 
     public LoginMenu(Main main) {
         Gdx.input.setCatchBackKey(true);
@@ -86,6 +93,7 @@ public class LoginMenu extends Login {
     public void show(){
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
+        Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
     }
     @Override
     public void dispose() {
@@ -93,6 +101,7 @@ public class LoginMenu extends Login {
 
     }
 
+    /*
     @Override
     public void input (String text) {
         Gdx.input.setOnscreenKeyboardVisible(true);
@@ -103,7 +112,7 @@ public class LoginMenu extends Login {
         if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
             main.setScreen(new MainMenu(main));
         }
-    }
+    }*/
 
     /* https://github.com/libgdx/libgdx/wiki/File-handling
     FileHandle file = Gdx.files.local("myfile.txt");
