@@ -14,13 +14,17 @@ import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
@@ -38,37 +42,115 @@ public class PlayGameScreen extends TableGame {
     Stage stage;
     Texture casillaTextura;
     Button lvl1;
-    Table t,tc;
+    Table t,tc,bt;
     SpriteBatch sb;
     Barril bar;
     Tablero tablero;
     SpriteBatch b;
+    Texture gear;
     public PlayGameScreen(final Main main){
         b= new SpriteBatch();
         Gdx.input.setCatchBackKey(true);
         sb = new SpriteBatch();
         this.main=main;
-        ButtonHandler bh = new ButtonHandler();
-        lvl1=bh.getButton(new Texture(Gdx.files.internal("level-1.png")),300,1300);
-     //   stage = new Stage();
+        tablero = new Tablero(6);
+        tablero.generateAllContent();
+        stage = new Stage();
       // casilla1 = new Casilla(casillaTextura,100,1000);
         createTableGame();
         createTableContent();
         createTableButtons();
-       // stage.addActor(t);
-      //  stage.addActor(tc);
+        stage.addActor(t);
+        stage.addActor(tc);
+        stage.addActor(bt);
     }
 
     private void createTableButtons() {
+        bt = new Table();
+        bt.setPosition(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        ButtonHandler bh = new ButtonHandler();
+        Boton b;
+        int i=0;
+        for(int p=100;p<=850;p=p+150){
+            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), p, 1250);
+            b.setId(i);
+            System.out.println("NUMERO"+b.getZIndex());
+            b.addCaptureListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Boton b = (Boton) actor;
+                    tablero.moveUpColumn(b.getId());
+                    tc.clearChildren();
+                    refreshTable();
+                    System.out.println("Entra");
 
-    }
+                }
+            });
+            stage.addActor(b);
+            i++;
+        }
+        i=0;
+        for(int p=100;p<=850;p=p+150){
+            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), p, 200);
+            b.setId(i);
+            System.out.println("NUMERO"+b.getZIndex());
+            b.addCaptureListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Boton b = (Boton) actor;
+                    tablero.moveDownColumn(b.getId());
+                    tc.clearChildren();
+                    refreshTable();
+                    System.out.println("Entra");
 
-    private void createTableContent() {
-        tc = new Table();
+                }
+            });
+            stage.addActor(b);
+            i++;
+        }
+        i=0;
+        for(int p=1100;p>=350;p=p-150){
+            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), 0, p);
+            b.setId(i);
+            b.addCaptureListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Boton b = (Boton) actor;
+                    tablero.moveLeftRow(b.getId());
+                    tc.clearChildren();
+                    refreshTable();
+                    System.out.println("Entra");
+
+                }
+            });
+            stage.addActor(b);
+            i++;
+        }
+        i=0;
+
+        for(int p=1100;p>=350;p=p-150){
+            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), 1000, p);
+            b.setId(i);
+            b.addCaptureListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    Boton b = (Boton) actor;
+                    tablero.moveRigthRow(b.getId());
+                    tc.clearChildren();
+                    refreshTable();
+                    System.out.println("Entra");
+
+                }
+            });
+            stage.addActor(b);
+            i++;
+        }
+
+        }
+
+    private void refreshTable() {
         Texture tuercaBlue = new Texture("GearBlue.png");
         Texture tuercaRead = new Texture("GearRed.png");
-        tablero = new Tablero(6);
-        tablero.generateAllContent();
         int a=0;
         int b=0;
         for(int i=1100;i>=350;i=i-150){
@@ -90,6 +172,12 @@ public class PlayGameScreen extends TableGame {
         System.out.println(a+" "+b);
         tc.add(bar);
 
+    }
+
+
+    private void createTableContent() {
+        tc = new Table();
+        refreshTable();
 
     }
 
@@ -102,24 +190,36 @@ public class PlayGameScreen extends TableGame {
                 t.add(new Casilla(casillaTextura,p,i));
             }
         }
+
+
+            /*
+         t.add(new Casilla(gear,p,1250).addCaptureListener(new ChangeListener() {
+             @Override
+             public void changed(ChangeEvent event, Actor actor) {
+
+             }
+         }));
+         */
+
+
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        b.begin();
-        t.draw(b,0f);
-        tc.draw(b,0f);
-        b.end();
+      //  b.begin();
+     //   t.draw(b,0f);
+     //   tc.draw(b,0f);
+     //   b.end();
 
-       // stage.act();
-      //  stage.draw();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -139,7 +239,7 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void hide() {
-     //   stage.dispose();
+        stage.dispose();
         b.dispose();
         casillaTextura.dispose();
 
@@ -148,9 +248,10 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void dispose() {
-      //  stage.dispose();
+        stage.dispose();
         b.dispose();
         casillaTextura.dispose();
+        gear.dispose();
 
     }
     @Override

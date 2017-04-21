@@ -28,6 +28,9 @@ public class Barril extends Actor {
         this.imagen = imagen;
         this.x=x;
         this.y=y;
+        setWidth(150);
+        setHeight(150);
+        setBounds(x,y,getWidth(),getHeight());
     }
     @Override
     public void draw(Batch batch, float parentAlpha) {

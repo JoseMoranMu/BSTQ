@@ -10,23 +10,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.bstq.Game.Boton;
 
 /**
  * Created by Jose on 28/02/2017.
  */
 
 public class ButtonHandler extends Button {
-    private Button b;
+    private Boton b;
 
     public ButtonHandler() {
 
     }
-    public Button getButton(Texture texture, int x, int y){
+    public Boton getButton(Texture texture, int x, int y){
         TextureRegion myTextureRegion = new TextureRegion(texture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
-        b = new ImageButton(myTexRegionDrawable);
-        b.setX(x);
-        b.setY(y);
+        b = new Boton(myTexRegionDrawable,x,y);
         return b;
     }
 
