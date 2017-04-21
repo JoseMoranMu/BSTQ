@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -26,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Timer;
 import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
 import com.bstq.view.MenuArcade;
@@ -80,8 +82,8 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveUpColumn(b.getId());
-                    tc.clearChildren();
-                    refreshTable();
+                    //refreshTable();
+                   // checkTable();
                     System.out.println("Entra");
 
                 }
@@ -99,8 +101,8 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveDownColumn(b.getId());
-                    tc.clearChildren();
-                    refreshTable();
+                    //refreshTable();
+                    //checkTable();
                     System.out.println("Entra");
 
                 }
@@ -117,8 +119,8 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveLeftRow(b.getId());
-                    tc.clearChildren();
-                    refreshTable();
+                    //refreshTable();
+                   // checkTable();
                     System.out.println("Entra");
 
                 }
@@ -136,8 +138,8 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveRigthRow(b.getId());
-                    tc.clearChildren();
-                    refreshTable();
+                    //refreshTable();
+                    //checkTable();
                     System.out.println("Entra");
 
                 }
@@ -148,9 +150,12 @@ public class PlayGameScreen extends TableGame {
 
         }
 
-    private void refreshTable() {
+    private boolean  refreshTable() {
+        tc.clearChildren();
+        boolean bo=tablero.check();
         Texture tuercaBlue = new Texture("GearBlue.png");
         Texture tuercaRead = new Texture("GearRed.png");
+        Texture explode = new Texture("explode.png");
         int a=0;
         int b=0;
         for(int i=1100;i>=350;i=i-150){
@@ -163,15 +168,25 @@ public class PlayGameScreen extends TableGame {
 
                     tc.add(new Barril(tuercaRead,p,i,0));
 
+                }else if(tablero.getCell(a,b)==88){
+                    tc.add(new Barril(explode,p,i,0));
                 }
                 b++;
             }
             b=0;
             a++;
         }
-        System.out.println(a+" "+b);
         tc.add(bar);
+        return bo;
+    }
 
+    private void checkTable() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        tablero.generateNewContent();
     }
 
 
@@ -211,15 +226,22 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void render(float delta) {
+        boolean b;
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-      //  b.begin();
-     //   t.draw(b,0f);
-     //   tc.draw(b,0f);
-     //   b.end();
-
+        b =refreshTable();
         stage.act();
         stage.draw();
+
+        if(b) {
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    tablero.generateNewContent();
+                }
+            }, 1);
+        }
+
     }
 
     @Override
