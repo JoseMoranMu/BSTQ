@@ -9,6 +9,7 @@ public class Tablero {
 
     int[][] tabla;
     int size;
+
     public Tablero(int size) {
         this.size=size;
         tabla = new int[size][size];
@@ -113,7 +114,7 @@ public class Tablero {
         int cont = 0;
         for (int i = 0; i < size; i++) {
             for (int p = 1; p < size; p++) {
-                if (tabla[i][p - 1] == tabla[i][p]) {
+                if ((tabla[i][p - 1] == tabla[i][p])&&(tabla[i][p]!=0)) {
                     cont++;
                 }
             }
@@ -133,7 +134,7 @@ public class Tablero {
         int cont = 0;
         for (int p = 0; p < size; p++) {
             for (int i = 1; i < size; i++) {
-                if (tabla[i - 1][p] == tabla[i][p]) {
+                if (tabla[i - 1][p] == tabla[i][p]&&(tabla[i][p]!=0)) {
                     cont++;
                 }
             }
