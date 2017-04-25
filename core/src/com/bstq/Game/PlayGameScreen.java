@@ -2,31 +2,16 @@ package com.bstq.Game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
+
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Interpolation;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Timer;
 import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
@@ -42,23 +27,26 @@ public class PlayGameScreen extends TableGame {
 
     final Main main;
     Stage stage;
-    Texture casillaTextura;
-    Button lvl1;
+    Texture casillaTextura,tuercaBlue,tuercaRead,explode;
     Table t,tc,bt;
-    SpriteBatch sb;
     Barril bar;
     Tablero tablero;
     SpriteBatch b;
-    Texture gear;
+    BitmapFont font;
+    int points;
     public PlayGameScreen(final Main main){
+        points =0;
+        font = new BitmapFont();
+        font.getData().setScale(5,5);
         b= new SpriteBatch();
         Gdx.input.setCatchBackKey(true);
-        sb = new SpriteBatch();
         this.main=main;
         tablero = new Tablero(6);
         tablero.generateAllContent();
         stage = new Stage();
-      // casilla1 = new Casilla(casillaTextura,100,1000);
+        tuercaBlue = new Texture("blueGear.png");
+        tuercaRead = new Texture("redGear.png");
+        explode = new Texture("explode.png");
         createTableGame();
         createTableContent();
         createTableButtons();
@@ -82,8 +70,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveUpColumn(b.getId());
-                    //refreshTable();
-                   // checkTable();
                     System.out.println("Entra");
 
                 }
@@ -101,8 +87,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveDownColumn(b.getId());
-                    //refreshTable();
-                    //checkTable();
                     System.out.println("Entra");
 
                 }
@@ -119,8 +103,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveLeftRow(b.getId());
-                    //refreshTable();
-                   // checkTable();
                     System.out.println("Entra");
 
                 }
@@ -138,8 +120,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveRigthRow(b.getId());
-                    //refreshTable();
-                    //checkTable();
                     System.out.println("Entra");
 
                 }
@@ -153,9 +133,6 @@ public class PlayGameScreen extends TableGame {
     private boolean  refreshTable() {
         tc.clearChildren();
         boolean bo=tablero.check();
-        Texture tuercaBlue = new Texture("GearBlue.png");
-        Texture tuercaRead = new Texture("GearRed.png");
-        Texture explode = new Texture("explode.png");
         int a=0;
         int b=0;
         for(int i=1100;i>=350;i=i-150){
@@ -226,24 +203,35 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void render(float delta) {
-        boolean b;
+        boolean bool;
+        BackButton();
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        b =refreshTable();
+        b.begin();
+        font.draw(b,Integer.toString(tablero.getPoints()),100,1600);
+        b.end();
+
+        bool =refreshTable();
         stage.act();
         stage.draw();
 
-        if(b) {
+        if(bool) {
+
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
                     tablero.generateNewContent();
+
                 }
             }, 1);
         }
 
     }
-
+    private void BackButton() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            main.setScreen(new MenuArcade(main));
+        }
+    }
     @Override
     public void resize(int width, int height) {
 
@@ -261,19 +249,25 @@ public class PlayGameScreen extends TableGame {
 
     @Override
     public void hide() {
+/*
         stage.dispose();
         b.dispose();
         casillaTextura.dispose();
-
-
+        tuercaBlue.dispose();
+        tuercaRead.dispose();
+        explode.dispose();
+        */
     }
 
     @Override
     public void dispose() {
+
         stage.dispose();
         b.dispose();
         casillaTextura.dispose();
-        gear.dispose();
+        tuercaBlue.dispose();
+        tuercaRead.dispose();
+        explode.dispose();
 
     }
     @Override
@@ -285,10 +279,6 @@ public class PlayGameScreen extends TableGame {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("screenX: "+screenX+" screenY: "+screenY+" pointer: "+pointer);
-        Button b = new Button();
-        if(b.isPressed()){
-
-        }
         return true;
     }
 
