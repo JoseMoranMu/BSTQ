@@ -68,7 +68,7 @@ public class MenuArcade extends Menu {
     }
 
     private void BackButton() {
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             main.setScreen(new MainMenu(main));
         }
     }

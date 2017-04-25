@@ -5,18 +5,30 @@
  */
 package com.bstq.Game;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public class Tablero {
 
     int[][] tabla;
+    int a=0,b=0;
     int size;
+    int points;
+    List content;
 
     public Tablero(int size) {
         this.size=size;
         tabla = new int[size][size];
+        content = new ArrayList();
+        points=0;
     }
+
     public int getCell(int row,int column){
         return tabla[row][column];
     }
+
     public void moveUpColumn(int col) {
         int count = 0;
         int temp;
@@ -79,22 +91,47 @@ public class Tablero {
     }
 
     public void generateAllContent() {
+        LoadContent();
+        Random rndm = new Random();
+        rndm.setSeed(System.nanoTime());
+        Collections.shuffle(content, rndm);
+        int index=0;
         for (int i = 0; i < size; i++) {
             for (int p = 0; p < size; p++) {
-                int n = (int) (Math.random() * 3);
-                tabla[i][p] = n;
+                tabla[i][p] = Integer.parseInt(content.get(index).toString());
+                index++;
             }
         }
     }
 
+    private void LoadContent() {
+        for(int i=0;i<36;i++){
+            if(a<12){
+                content.add(1);
+                a++;
+            }else if(b<12){
+                content.add(2);
+                b++;
+            }else{
+                content.add(0);
+            }
+        }
+
+    }
+
     public void generateNewContent() {
+        int contador=0;
         for (int i = 0; i < size; i++) {
             for (int p = 0; p < size; p++) {
                 if (tabla[i][p] == 88) {
-                    int n = (int) (Math.random() * 3);
+                    int n = (int) (Math.random() * 2)+1;
                     tabla[i][p] = n;
+                    contador++;
                 }
             }
+        }
+        if(contador!=0) {
+            points += (contador / 6) * 10;
         }
     }
 
@@ -121,6 +158,7 @@ public class Tablero {
             if (cont == 5) {
                 for (int p = 0; p < size; p++) {
                     tabla[i][p] = 88;
+
                 }
                 b = true;
             }
@@ -141,11 +179,15 @@ public class Tablero {
             if (cont == 5) {
                 for (int i = 0; i < size; i++) {
                     tabla[i][p] = 88;
+
                 }
                 b = true;
             }
             cont = 0;
         }
         return b;
+    }
+    public int getPoints(){
+        return points;
     }
 }
