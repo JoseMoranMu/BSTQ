@@ -61,8 +61,8 @@ public class PlayGameScreen extends TableGame {
         ButtonHandler bh = new ButtonHandler();
         Boton b;
         int i=0;
-        for(int p=100;p<=850;p=p+150){
-            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), p, 1250);
+        for(int p=162;p<912;p=p+125){
+            b = bh.getButton(new Texture(Gdx.files.internal("magnetUp.png")), p, 1225);
             b.setId(i);
             System.out.println("NUMERO"+b.getZIndex());
             b.addCaptureListener(new ChangeListener() {
@@ -78,8 +78,8 @@ public class PlayGameScreen extends TableGame {
             i++;
         }
         i=0;
-        for(int p=100;p<=850;p=p+150){
-            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), p, 200);
+        for(int p=162;p<912;p=p+125){
+            b = bh.getButton(new Texture(Gdx.files.internal("magnetDown.png")), p, 350);
             b.setId(i);
             System.out.println("NUMERO"+b.getZIndex());
             b.addCaptureListener(new ChangeListener() {
@@ -95,8 +95,8 @@ public class PlayGameScreen extends TableGame {
             i++;
         }
         i=0;
-        for(int p=1100;p>=350;p=p-150){
-            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), 0, p);
+        for(int p=1100;p>350;p=p-125){
+            b = bh.getButton(new Texture(Gdx.files.internal("magnetLeft.png")), 37, p);
             b.setId(i);
             b.addCaptureListener(new ChangeListener() {
                 @Override
@@ -112,8 +112,8 @@ public class PlayGameScreen extends TableGame {
         }
         i=0;
 
-        for(int p=1100;p>=350;p=p-150){
-            b = bh.getButton(new Texture(Gdx.files.internal("Gear.png")), 1000, p);
+        for(int p=1100;p>350;p=p-125){
+            b = bh.getButton(new Texture(Gdx.files.internal("magnetRight.png")), 912, p);
             b.setId(i);
             b.addCaptureListener(new ChangeListener() {
                 @Override
@@ -135,8 +135,8 @@ public class PlayGameScreen extends TableGame {
         boolean bo=tablero.check();
         int a=0;
         int b=0;
-        for(int i=1100;i>=350;i=i-150){
-            for(int p=100;p<=850;p=p+150){
+        for(int i=1100;i>350;i=i-125){
+            for(int p=162;p<912;p=p+125){
                 if(tablero.getCell(a,b)==1){
 
                     tc.add(new Barril(tuercaBlue,p,i,0));
@@ -176,8 +176,8 @@ public class PlayGameScreen extends TableGame {
     private void createTableGame() {
         t = new Table();
         casillaTextura = new Texture("casillafin.png");
-        for(int i=1100;i>=350;i=i-150){
-            for(int p=100;p<=850;p=p+150){
+        for(int i=1100;i>350;i=i-125){
+            for(int p=162;p<912;p=p+125){
                 System.out.println(p+" "+i);
                 t.add(new Casilla(casillaTextura,p,i));
             }
