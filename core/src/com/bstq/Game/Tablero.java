@@ -5,10 +5,13 @@
  */
 package com.bstq.Game;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Tablero {
 
@@ -17,12 +20,15 @@ public class Tablero {
     int size;
     int points;
     List content;
-
+    int time;
+    TimerTask crono;
+    Timer timer;
     public Tablero(int size) {
         this.size=size;
         tabla = new int[size][size];
         content = new ArrayList();
         points=0;
+        time=100;
     }
 
     public int getCell(int row,int column){
@@ -188,6 +194,20 @@ public class Tablero {
         return b;
     }
     public int getPoints(){
+
         return points;
+    }
+    public void startTimer(){
+        crono = new TimerTask() {
+            @Override
+            public void run() {
+                time--;
+            }
+        };
+        timer = new Timer();
+        timer.scheduleAtFixedRate(crono, 0, 1000);
+    }
+    public int getTime(){
+        return time;
     }
 }

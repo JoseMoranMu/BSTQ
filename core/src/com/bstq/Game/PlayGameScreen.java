@@ -17,6 +17,8 @@ import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
 import com.bstq.view.MenuArcade;
 
+import java.util.TimerTask;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 
 /**
@@ -33,9 +35,7 @@ public class PlayGameScreen extends TableGame {
     Tablero tablero;
     SpriteBatch b;
     BitmapFont font;
-    int points;
     public PlayGameScreen(final Main main){
-        points =0;
         font = new BitmapFont();
         font.getData().setScale(5,5);
         b= new SpriteBatch();
@@ -43,6 +43,7 @@ public class PlayGameScreen extends TableGame {
         this.main=main;
         tablero = new Tablero(6);
         tablero.generateAllContent();
+        tablero.startTimer();
         stage = new Stage();
         tuercaBlue = new Texture("blueGear.png");
         tuercaRead = new Texture("redGear.png");
@@ -64,13 +65,11 @@ public class PlayGameScreen extends TableGame {
         for(int p=162;p<912;p=p+125){
             b = bh.getButton(new Texture(Gdx.files.internal("magnetUp.png")), p, 1225);
             b.setId(i);
-            System.out.println("NUMERO"+b.getZIndex());
             b.addCaptureListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveUpColumn(b.getId());
-                    System.out.println("Entra");
 
                 }
             });
@@ -81,13 +80,11 @@ public class PlayGameScreen extends TableGame {
         for(int p=162;p<912;p=p+125){
             b = bh.getButton(new Texture(Gdx.files.internal("magnetDown.png")), p, 350);
             b.setId(i);
-            System.out.println("NUMERO"+b.getZIndex());
             b.addCaptureListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveDownColumn(b.getId());
-                    System.out.println("Entra");
 
                 }
             });
@@ -103,7 +100,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveLeftRow(b.getId());
-                    System.out.println("Entra");
 
                 }
             });
@@ -120,7 +116,6 @@ public class PlayGameScreen extends TableGame {
                 public void changed(ChangeEvent event, Actor actor) {
                     Boton b = (Boton) actor;
                     tablero.moveRigthRow(b.getId());
-                    System.out.println("Entra");
 
                 }
             });
@@ -157,14 +152,6 @@ public class PlayGameScreen extends TableGame {
         return bo;
     }
 
-    private void checkTable() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        tablero.generateNewContent();
-    }
 
 
     private void createTableContent() {
@@ -178,20 +165,9 @@ public class PlayGameScreen extends TableGame {
         casillaTextura = new Texture("casillafin.png");
         for(int i=1100;i>350;i=i-125){
             for(int p=162;p<912;p=p+125){
-                System.out.println(p+" "+i);
                 t.add(new Casilla(casillaTextura,p,i));
             }
         }
-
-
-            /*
-         t.add(new Casilla(gear,p,1250).addCaptureListener(new ChangeListener() {
-             @Override
-             public void changed(ChangeEvent event, Actor actor) {
-
-             }
-         }));
-         */
 
 
     }
@@ -205,28 +181,34 @@ public class PlayGameScreen extends TableGame {
     public void render(float delta) {
         boolean bool;
         BackButton();
-        Gdx.gl.glClearColor(0, 0.5f, 1, 1);
+        Gdx.gl.glClearColor(0.0f, 153f/255.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         b.begin();
-        font.draw(b,Integer.toString(tablero.getPoints()),100,1600);
+        font.draw(b,"Points: "+Integer.toString(tablero.getPoints()),100,1600);
+        font.draw(b,"Time: "+Integer.toString(tablero.getTime()),100,1500);
         b.end();
 
-        bool =refreshTable();
+        if(refreshTable()){
+            destroyContent();
+        }
+
         stage.act();
         stage.draw();
 
-        if(bool) {
-
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    tablero.generateNewContent();
-
-                }
-            }, 1);
-        }
 
     }
+
+    private void destroyContent() {
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                tablero.generateNewContent();
+
+            }
+        }, 0.5f);
+    }
+
+
     private void BackButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             main.setScreen(new MenuArcade(main));
@@ -270,21 +252,5 @@ public class PlayGameScreen extends TableGame {
         explode.dispose();
 
     }
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
 
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("screenX: "+screenX+" screenY: "+screenY+" pointer: "+pointer);
-        return true;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("screenX: "+screenX+" screenY: "+screenY+" pointer: "+pointer);
-        return super.touchUp(screenX, screenY, pointer, button);
-    }
 }
