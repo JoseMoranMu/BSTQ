@@ -62,6 +62,8 @@ public class LoginMenu extends Menu  {
         b= new SpriteBatch();
         skin = new Skin();
         skin.add("textfield","textfield.png");
+        String email, password;
+        TextField emailTF, passwordTF;
 
 
         /*txtUsername = new TextField("", stage);
@@ -79,6 +81,10 @@ public class LoginMenu extends Menu  {
                 Gdx.input.setInputProcessor(stage);
                 Gdx.input.setCatchBackKey(true);
                 Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
+                emailTF = new TextField("", skin);
+                emailTF.setMessageText("test");
+                emailTF.setPosition(30, 30);
+                stage.addActor(emailTF);
                 ///////////////////////////////////////email=listener;
                 /*pgs = new PlayGameScreen(main);
                 main.setScreen(pgs);*/
