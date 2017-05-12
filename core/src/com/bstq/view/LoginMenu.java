@@ -23,6 +23,11 @@ import static com.badlogic.gdx.graphics.profiling.GLProfiler.listener;
 
 //   https://github.com/libgdx/libgdx/wiki/Simple-text-input
 //   https://github.com/libgdx/libgdx/wiki/On-screen-keyboard
+//   http://apiwave.com/java/snippets/addition/com.badlogic.gdx.Input.TextInputListener
+
+/* https://github.com/libgdx/libgdx/wiki/File-handling
+    FileHandle file = Gdx.files.local("myfile.txt");
+file.writeString("My god, it's full of stars", false);*/
 
 /** OVERLAP 2D
  * https://www.youtube.com/watch?v=Lp1GRyUUoFM overlap2D
@@ -57,8 +62,9 @@ public class LoginMenu extends Menu  {
         prepareButtons();
         prepareListeners();
         stage.addActor(lvl1);
-        font = new BitmapFont();
-        font.getData().setScale(5,5);
+        //letras
+        //font = new BitmapFont();
+        //font.getData().setScale(5,5);
         b= new SpriteBatch();
         skin = new Skin();
         skin.add("textfield","textfield.png");
@@ -81,10 +87,14 @@ public class LoginMenu extends Menu  {
                 Gdx.input.setInputProcessor(stage);
                 Gdx.input.setCatchBackKey(true);
                 Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
-                emailTF = new TextField("", skin);
+                /*emailTF = new TextField("", skin);
+                Gdx.input.setOnscreenKeyboardVisible(true);
                 emailTF.setMessageText("test");
                 emailTF.setPosition(30, 30);
                 stage.addActor(emailTF);
+                String test = emailTF.getText();
+                System.out.println(test);*/
+
                 ///////////////////////////////////////email=listener;
                 /*pgs = new PlayGameScreen(main);
                 main.setScreen(pgs);*/
@@ -113,7 +123,7 @@ public class LoginMenu extends Menu  {
         stage.act();
         stage.draw();
         b.begin();
-        font.draw(b,"Email: ",400,1440);
+        //font.draw(b,"Email: ",400,1440);
         //font.draw(b,"Password: ",400,1340);
         b.end();
     }
@@ -141,8 +151,6 @@ public class LoginMenu extends Menu  {
         }
     }*/
 
-    /* https://github.com/libgdx/libgdx/wiki/File-handling
-    FileHandle file = Gdx.files.local("myfile.txt");
-file.writeString("My god, it's full of stars", false);*/
+
 
 }
