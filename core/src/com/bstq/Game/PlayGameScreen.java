@@ -168,8 +168,6 @@ public class PlayGameScreen extends TableGame {
                 t.add(new Casilla(casillaTextura,p,i));
             }
         }
-
-
     }
 
     @Override
@@ -214,6 +212,7 @@ public class PlayGameScreen extends TableGame {
             main.setScreen(new MenuArcade(main));
         }
     }
+
     @Override
     public void resize(int width, int height) {
 
