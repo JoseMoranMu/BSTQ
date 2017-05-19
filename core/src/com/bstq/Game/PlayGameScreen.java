@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.bstq.Main;
+import com.bstq.Service.UsersDAO;
 import com.bstq.view.ButtonHandler;
 import com.bstq.view.MainMenu;
 import com.bstq.view.MenuArcade;
@@ -42,7 +43,9 @@ public class PlayGameScreen extends TableGame {
     SpriteBatch b;
     BitmapFont font;
     Skin sk;
+    UsersDAO service;
     public PlayGameScreen(final Main main){
+        service = new UsersDAO();
         sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         sk.getFont("default-font").getData().setScale(3f,3f);
         font = new BitmapFont();
@@ -207,9 +210,14 @@ public class PlayGameScreen extends TableGame {
 
     private void endGame() {
         int points = tablero.getPoints();
+        String s;
+        System.out.println(main.getUserLoged().toString());
         if(points>main.getUserLoged().getMaxScore()){
-            //String s ="Time's up!"
-
+            s ="You have a new record : "+points;
+            showDialog(s,true);
+        }else{
+            s ="Time's up! \n"+"You points : "+points;
+            showDialog(s,true);
         }
     }
 
@@ -276,7 +284,9 @@ public class PlayGameScreen extends TableGame {
             protected void result (Object object) {
                 this.clear();
                 if(object.equals(true)){
-
+                    service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
+                    main.getUserLoged().setMaxScore(tablero.getPoints());
+                    main.setScreen(new MenuArcade(main));
                 }
             }
         };
