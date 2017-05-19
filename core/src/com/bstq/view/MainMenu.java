@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.bstq.Main;
+import com.bstq.Service.UsersDAO;
 
 /**
  * Created by Jose on 17/02/2017.
@@ -19,9 +20,11 @@ public class MainMenu extends Menu{
     final Main main;
     Button arcade,survivor,multiplayer, settings, exit;
     Stage stage;
+    UsersDAO service;
 
     public MainMenu(final Main main) {
         Gdx.input.setCatchBackKey(true);
+        service = new UsersDAO();
         this.main=main;
         stage = new Stage();
         prepareButtons();
@@ -31,7 +34,7 @@ public class MainMenu extends Menu{
         stage.addActor(multiplayer);
         stage.addActor(settings);
         stage.addActor(exit);
-
+        service.registPoints(main.getUserLoged().getId(),(main.getUserLoged().getMaxScore()+600));
     }
 
     private void prepareListeners() {

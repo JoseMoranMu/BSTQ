@@ -8,13 +8,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.bstq.Main;
 import com.bstq.view.ButtonHandler;
+import com.bstq.view.MainMenu;
 import com.bstq.view.MenuArcade;
 
 import java.util.TimerTask;
@@ -35,7 +41,10 @@ public class PlayGameScreen extends TableGame {
     Tablero tablero;
     SpriteBatch b;
     BitmapFont font;
+    Skin sk;
     public PlayGameScreen(final Main main){
+        sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
+        sk.getFont("default-font").getData().setScale(3f,3f);
         font = new BitmapFont();
         font.getData().setScale(5,5);
         b= new SpriteBatch();
@@ -189,11 +198,19 @@ public class PlayGameScreen extends TableGame {
         if(refreshTable()){
             destroyContent();
         }
-
+        if(tablero.getTime()==0) endGame();
         stage.act();
         stage.draw();
 
 
+    }
+
+    private void endGame() {
+        int points = tablero.getPoints();
+        if(points>main.getUserLoged().getMaxScore()){
+            //String s ="Time's up!"
+
+        }
     }
 
     private void destroyContent() {
@@ -251,5 +268,23 @@ public class PlayGameScreen extends TableGame {
         explode.dispose();
 
     }
+    private void showDialog(String s, boolean exit) {
+        Label label = new Label(s, sk);
+        label.setWrap(true);
+        label.setAlignment(Align.center);
+        Dialog d =new Dialog("", sk, "dialog") {
+            protected void result (Object object) {
+                this.clear();
+                if(object.equals(true)){
 
+                }
+            }
+        };
+        d.padTop(50).padBottom(50).padLeft(50).padRight(50);
+        d.getContentTable().padBottom(50);
+        d.getContentTable().add(label).width(850).row();
+        d.button("Close", exit).show(stage);
+
+
+    }
 }

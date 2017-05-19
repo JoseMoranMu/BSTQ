@@ -23,6 +23,7 @@ public class Tablero {
     int time;
     TimerTask crono;
     Timer timer;
+
     public Tablero(int size) {
         this.size=size;
         tabla = new int[size][size];
@@ -202,6 +203,7 @@ public class Tablero {
             @Override
             public void run() {
                 time--;
+                if(time==0) this.cancel();
             }
         };
         timer = new Timer();
