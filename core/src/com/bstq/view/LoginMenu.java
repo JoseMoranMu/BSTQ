@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Align;
 import com.bstq.Main;
 import com.bstq.Service.User;
 import com.bstq.Service.UsersDAO;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.badlogic.gdx.graphics.profiling.GLProfiler.listener;
 
@@ -106,16 +108,24 @@ public class LoginMenu extends Menu  {
 
     private void checkLogin() {
         String email=user.getText();
+        String validateEmail = "([\\w.\\.]+@)((?:[\\w]+\\.)+)([a-zA-Z]{2,4})";
         String password = pass.getText();
-        if(!email.equals("")&&!password.equals("")) {
-            u = service.login(email, password);
-            System.out.println(u.toString());
-            if (u == null) {
-                showDialog("Login fail", false);
-            } else {
+        String validatePassword = "[a-zA-Z0-9]{4,20}";
+        if (validate(email,validateEmail)==false) {
+            showDialog("You must enter a valid email", false);
+        } else if (validate(password,validatePassword)==false){
+            showDialog("The password must be 4 to 20 alphanumeric characters", false);
+        } else if (validate(email,validateEmail)==true && validate(password,validatePassword)==true){
+            if (!email.equals("") && !password.equals("")) {
+                u = service.login(email, password);
+                System.out.println(u.toString());
+                if (u == null) {
+                    showDialog("Login fail", false);
+                } else {
 
-                showDialog("Login succes", true);
+                    showDialog("Login succes", true);
 
+                }
             }
         }
     }
@@ -171,6 +181,19 @@ public class LoginMenu extends Menu  {
     public void dispose() {
         stage.dispose();
 
+    }
+
+    /**
+     * Validates the string given with the regular expression that we want validate.
+     * Return true if matches, false if not.
+     * @param source
+     * @param expression
+     * @return
+     */
+    public static boolean validate(String source, String expression) {
+        Pattern p = Pattern.compile(expression);
+        Matcher m = p.matcher(source);
+        return m.matches();
     }
 
     /*
