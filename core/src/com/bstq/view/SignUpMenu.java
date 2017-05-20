@@ -19,6 +19,9 @@ import com.badlogic.gdx.utils.Align;
 import com.bstq.Main;
 import com.bstq.Service.UsersDAO;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by Jose on 17/05/2017.
  */
@@ -64,28 +67,36 @@ public class SignUpMenu extends Menu {
     }
 
     private void singUp() {
-
-        String user=userName.getText();
+        String validateEmail = "([\\w.\\.]+@)((?:[\\w]+\\.)+)([a-zA-Z]{2,4})";
+        String validatePassword = "[a-zA-Z0-9]{4,20}";
+        String user = userName.getText();
         String userEmail = email.getText();
-        String password=pass.getText();
+        String password = pass.getText();
         String passwordR = repeatPass.getText();
-        if(!user.equals("")&&!userEmail.equals("")&&!password.equals("")&&!passwordR.equals("")) {
-            if(password.equals(passwordR)){
-                String response = service.singUp(user,userEmail,password);
-                System.out.println(response);
-                if(response.equals("ok")){
-                        showDialog("User signed up correctly",true);
+        if (!user.equals("") && !userEmail.equals("") && !password.equals("") && !passwordR.equals("")) {
+            if (validate(userEmail, validateEmail) == false) {
+                showDialog("You must enter a valid email", false);
+            } else if (validate(password, validatePassword) == false) {
+                showDialog("The password must be 4 to 20 alphanumeric characters", false);
+            } else if (validate(userEmail, validateEmail) == true && validate(password, validatePassword) == true) {
+                if (password.equals(passwordR)) {
+                    String response = service.singUp(user, userEmail, password);
+                    System.out.println(response);
+                    if (response.equals("ok")) {
+                        showDialog("User signed up correctly", true);
 
-                }else if(response.equals("user_name")){
-                        showDialog("User name already exist",false);
-                }else if(response.equals("email")){
-                        showDialog("Email allready in use",false);
+                    } else if (response.equals("user_name")) {
+                        showDialog("User name already exist", false);
+                    } else if (response.equals("email")) {
+                        showDialog("Email allready in use", false);
+                    }
+                } else {
+                    showDialog("Password don't match", false);
                 }
-            }else{
-                showDialog("Password don't match",false);
             }
-        }else{
-            showDialog("Complete all the fields to sign up",false);
+
+        } else {
+            showDialog("Complete all the fields to sign up", false);
         }
     }
 
@@ -190,5 +201,17 @@ public class SignUpMenu extends Menu {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             showLogin();
         }
+    }
+    /**
+     * Validates the string given with the regular expression that we want validate.
+     * Return true if matches, false if not.
+     * @param source
+     * @param expression
+     * @return
+     */
+    public static boolean validate(String source, String expression) {
+        Pattern p = Pattern.compile(expression);
+        Matcher m = p.matcher(source);
+        return m.matches();
     }
 }
