@@ -38,29 +38,44 @@ import static com.badlogic.gdx.graphics.profiling.GLProfiler.listener;
 
 public class LoginMenu extends Menu  {
     final Main main;
-    Button login,singup;
+    Button login,register;
     Stage stage;
-    TextField user;
-    TextField pass;
+    TextField user,pass;
     UsersDAO service;
-    Label message;
+    Label userLabel, passLabel;
     Skin sk;
     User u;
     public LoginMenu(Main main) {
+
         service = new UsersDAO();
         Gdx.input.setCatchBackKey(true);
         this.main=main;
         stage = new Stage();
-        prepareButtons();
-        prepareListeners();
-        //stage.addActor(lvl1);
         sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         sk.getFont("default-font").getData().setScale(3f,3f);
+        prepareButtons();
+        prepareListeners();
+        prepareForm();
+        fillStage();
+    }
 
-        Label userLabel = new Label("Email: ",sk);
-        message = new Label("",sk);
-        message.setPosition(150,1350);
-        message.setSize(500,100);
+    /**
+     * Method to fill the Stage with all actors
+     */
+    private void fillStage() {
+        stage.addActor(userLabel);
+        stage.addActor(passLabel);
+        stage.addActor(user);
+        stage.addActor(pass);
+        stage.addActor(login);
+        stage.addActor(register);
+    }
+
+    /**
+     * Method to prepare Labels and TextViews of the screen
+     */
+    private void prepareForm() {
+        userLabel = new Label("Email: ",sk);
         userLabel.setSize(500,100);
         userLabel.setPosition(150,1150);
         Label passLabel = new Label("Password: ",sk);
@@ -75,21 +90,11 @@ public class LoginMenu extends Menu  {
         pass.setSize(500,100);
         pass.setPasswordCharacter('*');
         pass.setPasswordMode(true);
-        stage.addActor(userLabel);
-        stage.addActor(passLabel);
-        stage.addActor(user);
-        stage.addActor(pass);
-        stage.addActor(login);
-        stage.addActor(message);
-        stage.addActor(singup);
-        /*txtUsername = new TextField("", stage);
-        txtUsername.setMessageText("test");
-        txtUsername.setPosition(30, 30);
-        stage.addActor(txtUsername);
-        String test = txtUsername.getText();
-        System.out.println(test);*/
     }
 
+    /**
+     * Method to add Listeners to buttons
+     */
     private void prepareListeners() {
         login.addCaptureListener(new ChangeListener() {
             @Override
@@ -98,7 +103,7 @@ public class LoginMenu extends Menu  {
 
             }
         });
-        singup.addCaptureListener(new ChangeListener() {
+        register.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 main.setScreen(new SignUpMenu(main));
@@ -106,6 +111,10 @@ public class LoginMenu extends Menu  {
         });
     }
 
+    /**
+     * Method to check the data input by the user to login,
+     * show a dialog reporting the result of loguin
+     */
     private void checkLogin() {
         String email=user.getText();
         String password = pass.getText();
@@ -123,6 +132,13 @@ public class LoginMenu extends Menu  {
             }
         }
     }
+
+    /**
+     * Method to show a dialog
+     * @param s message to show
+     * @param exit boolean data if is true, goes to MainMenu screen.
+     *             if is flase, only shows a message
+     */
     private void showDialog(String s, boolean exit) {
         Label label = new Label(s, sk);
         label.setWrap(true);
@@ -140,15 +156,16 @@ public class LoginMenu extends Menu  {
         d.getContentTable().padBottom(50);
         d.getContentTable().add(label).width(850).row();
         d.button("Close", exit).show(stage);
-
-
     }
+
+    /**
+     * Method to prepare the buttons of the screen
+     */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
         login=bh.getButton(new Texture(Gdx.files.internal("button-loguin.png")),75,650);
-        singup=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),575,650);
+        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),575,650);
     }
-
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
@@ -169,30 +186,11 @@ public class LoginMenu extends Menu  {
     public void show(){
         Gdx.input.setInputProcessor(stage);
         Gdx.input.setCatchBackKey(true);
-        //Gdx.input.getTextInput(listener, "Dialog Title", "Initial Textfield Value", "Hint Value");
     }
     @Override
     public void dispose() {
         stage.dispose();
 
     }
-
-
-    /*
-    @Override
-    public void input (String text) {
-        Gdx.input.setOnscreenKeyboardVisible(true);
-    }
-
-    @Override
-    public void canceled () {
-        if (Gdx.input.isKeyPressed(Input.Keys.BACK)) {
-            main.setScreen(new MainMenu(main));
-        }
-    }*/
-
-    /* https://github.com/libgdx/libgdx/wiki/File-handling
-    FileHandle file = Gdx.files.local("myfile.txt");
-file.writeString("My god, it's full of stars", false);*/
 
 }

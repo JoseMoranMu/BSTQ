@@ -44,6 +44,13 @@ public class SignUpMenu extends Menu {
         initLabels();
         initFields();
         initButton();
+        fillStage();
+    }
+
+    /**
+     * Method to fill the stage with all the actors
+     */
+    private void fillStage() {
         stage.addActor(labelUser);
         stage.addActor(labelEmail);
         stage.addActor(labelPass);
@@ -55,6 +62,9 @@ public class SignUpMenu extends Menu {
         stage.addActor(singin);
     }
 
+    /**
+     * Method to initializes buttons
+     */
     private void initButton() {
         ButtonHandler bh = new ButtonHandler();
         singin=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),350,450);
@@ -64,8 +74,13 @@ public class SignUpMenu extends Menu {
                 singUp();
             }
         });
+
     }
 
+    /**
+     * Method to get all the data input by user, and reports to the user the result.
+     * Check also if Email and Password is valid.
+     */
     private void singUp() {
         String validateEmail = "([\\w.\\.]+@)((?:[\\w]+\\.)+)([a-zA-Z]{2,4})";
         String validatePassword = "[a-zA-Z0-9]{4,20}";
@@ -101,10 +116,19 @@ public class SignUpMenu extends Menu {
         }
     }
 
+    /**
+     * Goes to Login Screen
+     */
     private void showLogin() {
         main.setScreen(new LoginMenu(main));
     }
 
+    /**
+     * Method to show a dialog to report
+     * @param s message to show
+     * @param exit boolean, true if after dialog exit screen and goes to another one
+     *                      false if dont
+     */
     private void showDialog(String s, boolean exit) {
         Label label = new Label(s, sk);
         label.setWrap(true);
@@ -126,6 +150,9 @@ public class SignUpMenu extends Menu {
 
     }
 
+    /**
+     * Method to initializes Fields
+     */
     private void initFields() {
         //User name
         userName = new TextField("",sk);
@@ -153,6 +180,9 @@ public class SignUpMenu extends Menu {
 
     }
 
+    /**
+     * Method to initialize Labels
+     */
     private void initLabels() {
         //User name
         labelUser = new Label("User name: ",sk);
@@ -203,6 +233,7 @@ public class SignUpMenu extends Menu {
             showLogin();
         }
     }
+
     /**
      * Validates the string given with the regular expression that we want validate.
      * Return true if matches, false if not.
