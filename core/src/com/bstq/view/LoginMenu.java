@@ -111,12 +111,15 @@ public class LoginMenu extends Menu  {
         String password = pass.getText();
         if (!email.equals("") && !password.equals("")) {
             u = service.login(email, password);
+
             if (u == null) {
                 showDialog("Login fail", false);
-            } else {
+            } else if (u.getId()==0){
 
+                showDialog("Error connecting to server \n ", false);
+
+            }else{
                 showDialog("Login succes", true);
-
             }
         }
     }

@@ -81,8 +81,9 @@ public class SignUpMenu extends Menu {
             } else if (validate(userEmail, validateEmail) == true && validate(password, validatePassword) == true) {
                 if (password.equals(passwordR)) {
                     String response = service.singUp(user, userEmail, password);
-                    System.out.println(response);
-                    if (response.equals("ok")) {
+                    if(response.equals("connectionError")){
+                        showDialog("Error connecting to server \n user not registered", false);
+                    }else if (response.equals("ok")) {
                         showDialog("User signed up correctly", true);
 
                     } else if (response.equals("user_name")) {

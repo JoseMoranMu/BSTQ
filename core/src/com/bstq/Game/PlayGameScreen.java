@@ -24,6 +24,7 @@ import com.bstq.view.ButtonHandler;
 import com.bstq.view.MainMenu;
 import com.bstq.view.MenuArcade;
 
+import java.net.UnknownHostException;
 import java.util.TimerTask;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
@@ -284,9 +285,13 @@ public class PlayGameScreen extends TableGame {
             protected void result (Object object) {
                 this.clear();
                 if(object.equals(true)){
-                    service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
-                    main.getUserLoged().setMaxScore(tablero.getPoints());
-                    main.setScreen(new MenuArcade(main));
+                    try {
+                    registerPoints();
+                } catch (UnknownHostException e) {
+
+                    showDialog("Error connecting to Server \n failed to save points",false);
+                        this.clear();
+                }
                 }
             }
         };
@@ -296,5 +301,11 @@ public class PlayGameScreen extends TableGame {
         d.button("Close", exit).show(stage);
 
 
+    }
+
+    private void registerPoints() throws UnknownHostException {
+            service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
+            main.getUserLoged().setMaxScore(tablero.getPoints());
+            main.setScreen(new MenuArcade(main));
     }
 }

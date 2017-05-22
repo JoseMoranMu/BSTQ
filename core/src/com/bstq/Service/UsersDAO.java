@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,6 +37,9 @@ public class UsersDAO {
             con.connect();
             response = getResponseBody(con);
             u = getUser(response);
+        } catch (UnknownHostException ex){
+            u = new User();
+            u.setId(0);
         } catch (MalformedURLException ex) {
             Logger.getLogger(UsersDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -51,7 +55,9 @@ public class UsersDAO {
             con.setRequestMethod("POST");
             con.connect();
             response = getResponseBody(con);
-        } catch (MalformedURLException ex) {
+        }  catch (UnknownHostException ex){
+            response = "connectionError";
+        }catch (MalformedURLException ex) {
             Logger.getLogger(UsersDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(UsersDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +67,7 @@ public class UsersDAO {
     }
 
 
-    public void registPoints(int userId, int maxScore){
+    public void registPoints(int userId, int maxScore) throws UnknownHostException{
         try {
             URL url = new URL(urlService + "/MaxScore"+"/"+userId+"/"+maxScore);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
