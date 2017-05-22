@@ -116,7 +116,7 @@ public class LoginMenu extends Menu  {
                 showDialog("Login fail", false);
             } else if (u.getId()==0){
 
-                showDialog("Error connecting to server \n ", false);
+                showDialog("Error connecting to server", false);
 
             }else{
                 showDialog("Login succes", true);
@@ -145,8 +145,8 @@ public class LoginMenu extends Menu  {
     }
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        login=bh.getButton(new Texture(Gdx.files.internal("boton-login.png")),100,650);
-        singup=bh.getButton(new Texture(Gdx.files.internal("boton-registrar.png")),600,650);
+        login=bh.getButton(new Texture(Gdx.files.internal("button-loguin.png")),75,650);
+        singup=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),575,650);
     }
 
     @Override

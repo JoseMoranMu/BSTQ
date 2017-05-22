@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.bstq.Game.PlayGameScreen;
 import com.bstq.Main;
 import com.bstq.Service.UsersDAO;
 
@@ -30,8 +31,8 @@ public class MainMenu extends Menu{
         prepareListeners();
         stage.addActor(arcade);
         stage.addActor(survivor);
-        stage.addActor(multiplayer);
-        stage.addActor(settings);
+        //stage.addActor(multiplayer);
+       // stage.addActor(settings);
         stage.addActor(exit);
     }
 
@@ -40,30 +41,33 @@ public class MainMenu extends Menu{
         arcade.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new MenuArcade(main));
+                main.setScreen(new PlayGameScreen(main));
             }
         });
         survivor.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new MenuSurvivor(main));
+                main.setScreen(new RankingScreen(main));
             }
         });
+        /*
         multiplayer.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 main.setScreen(new MenuMultiplayer(main));
             }
         });
-        settings.addCaptureListener(new ChangeListener() {
+       settings.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 main.setScreen(new MenuGeneralSettings(main));
             }
         });
+        */
         exit.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                main.dispose();
                 Gdx.app.exit();
             }
         });
@@ -71,11 +75,11 @@ public class MainMenu extends Menu{
 
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        arcade =bh.getButton(new Texture(Gdx.files.internal("boton-arcade.png")),300,1300);
-        survivor =bh.getButton(new Texture(Gdx.files.internal("boton-survivor.png")),300,1100);
-        multiplayer = bh.getButton(new Texture(Gdx.files.internal("boton-multiplayer.png")),300,900);
-        settings =bh.getButton(new Texture(Gdx.files.internal("boton-settings.png")),300,700);
-        exit =bh.getButton(new Texture(Gdx.files.internal("boton-exit.png")),300,500);
+        arcade =bh.getButton(new Texture(Gdx.files.internal("button-startgame.png")),300,1150);
+        survivor =bh.getButton(new Texture(Gdx.files.internal("button-ranking.png")),300,900);
+       // multiplayer = bh.getButton(new Texture(Gdx.files.internal("boton-multiplayer.png")),300,900);
+       // settings =bh.getButton(new Texture(Gdx.files.internal("boton-settings.png")),300,700);
+        exit =bh.getButton(new Texture(Gdx.files.internal("button-exit.png")),300,650);
 
     }
 

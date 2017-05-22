@@ -57,7 +57,7 @@ public class SignUpMenu extends Menu {
 
     private void initButton() {
         ButtonHandler bh = new ButtonHandler();
-        singin=bh.getButton(new Texture(Gdx.files.internal("boton-registrar.png")),350,450);
+        singin=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),350,450);
         singin.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

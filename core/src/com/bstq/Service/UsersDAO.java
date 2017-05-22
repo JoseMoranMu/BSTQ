@@ -12,6 +12,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -108,5 +110,31 @@ public class UsersDAO {
         br.close();
         return sb.toString();
 
+    }
+
+    public Ranking loadRanking() {
+        Ranking list = new Ranking();
+        try {
+            URL url = new URL(urlService + "/listRanking");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.connect();
+            String response =getResponseBody(con);
+            list = loadList(response);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(UsersDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(UsersDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+
+    private Ranking loadList(String response) {
+        Ranking list = new Ranking();
+        Gson gson = new Gson();
+        if(!response.equals("null")) {
+            list = gson.fromJson(response, Ranking.class);
+        }
+        return list;
     }
 }

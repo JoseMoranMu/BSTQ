@@ -235,7 +235,7 @@ public class PlayGameScreen extends TableGame {
 
     private void BackButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
-            main.setScreen(new MenuArcade(main));
+            main.setScreen(new MainMenu(main));
         }
     }
 
@@ -306,6 +306,6 @@ public class PlayGameScreen extends TableGame {
     private void registerPoints() throws UnknownHostException {
             service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
             main.getUserLoged().setMaxScore(tablero.getPoints());
-            main.setScreen(new MenuArcade(main));
+            main.setScreen(new MainMenu(main));
     }
 }
