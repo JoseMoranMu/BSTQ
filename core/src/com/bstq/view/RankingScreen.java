@@ -1,6 +1,8 @@
 package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -25,7 +27,7 @@ public class RankingScreen extends Menu {
     Stage stage;
     Skin sk;
     public RankingScreen(Main main){
-
+        Gdx.input.setCatchBackKey(true);
         this.main = main;
         service = new UsersDAO();
         stage = new Stage();
@@ -38,9 +40,23 @@ public class RankingScreen extends Menu {
     }
 
     private void printList() {
+        Label title = new Label("RANKING",sk);
+        int x =400;
+        int y = 1500;
+        Label contentN;
+        Label contentP;
+        title.setPosition(x,y);
+        title.setColor(Color.YELLOW);
+        stage.addActor(title);
+        y-=100;
         for(int i=0;i<ranking.size();i++){
-            System.out.println(ranking.get(i).toString());
-            stage.addActor(new Label("User: "+ranking.get(i).getUserName()+" Score: "+ranking.get(i).getMaxScore(),sk));
+            y-=100;
+            contentN = new Label(ranking.get(i).getUserName(),sk);
+            contentN.setPosition(x-150,y);
+            contentP = new Label(ranking.get(i).getMaxScore()+" pts",sk);
+            contentP.setPosition(x+200,y);
+            stage.addActor(contentN);
+            stage.addActor(contentP);
 
         }
     }
@@ -58,15 +74,25 @@ public class RankingScreen extends Menu {
 
     @Override
     public void render(float delta){
+
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
+        backButton();
+
     }
+
     @Override
     public void dispose() {
+
         stage.dispose();
 
     }
 
+    private void backButton() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            main.setScreen(new MainMenu(main));
+        }
+    }
 }

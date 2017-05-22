@@ -119,7 +119,7 @@ public class LoginMenu extends Menu  {
                 showDialog("Error connecting to server", false);
 
             }else{
-                showDialog("Login succes", true);
+                showDialog("Login success", true);
             }
         }
     }
