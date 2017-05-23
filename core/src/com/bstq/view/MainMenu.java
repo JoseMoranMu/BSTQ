@@ -87,18 +87,18 @@ public class MainMenu extends Menu{
      */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        arcade =bh.getButton(new Texture(Gdx.files.internal("button-startgame.png")),300,1150);
-        survivor =bh.getButton(new Texture(Gdx.files.internal("button-ranking.png")),300,900);
+        arcade =bh.getButton(new Texture(Gdx.files.internal("button-startgame.png")),297,1200);
+        survivor =bh.getButton(new Texture(Gdx.files.internal("button-ranking.png")),297,900);
        // multiplayer = bh.getButton(new Texture(Gdx.files.internal("boton-multiplayer.png")),300,900);
        // settings =bh.getButton(new Texture(Gdx.files.internal("boton-settings.png")),300,700);
-        exit =bh.getButton(new Texture(Gdx.files.internal("button-exit.png")),300,650);
+        exit =bh.getButton(new Texture(Gdx.files.internal("button-exit.png")),297,600);
 
     }
 
     @Override
     public void hide() {
         Gdx.input.setInputProcessor(null);
-         stage.dispose();
+
 
     }
 
