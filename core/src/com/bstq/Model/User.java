@@ -1,4 +1,4 @@
-package com.bstq.Service;
+package com.bstq.Model;
 
 /**
  * Created by Jose on 17/05/2017.

@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.bstq.Game.PlayGameScreen;
 import com.bstq.Main;
-import com.bstq.Service.UsersDAO;
 
 /**
  * Created by Jose on 17/02/2017.
@@ -29,13 +28,23 @@ public class MainMenu extends Menu{
         stage = new Stage();
         prepareButtons();
         prepareListeners();
+        fillStage();
+    }
+
+    /**
+     * Method to fill the Stage object with actors of the Screen
+     */
+    private void fillStage() {
         stage.addActor(arcade);
         stage.addActor(survivor);
         //stage.addActor(multiplayer);
-       // stage.addActor(settings);
+        // stage.addActor(settings);
         stage.addActor(exit);
     }
 
+    /**
+     * Method to prepare Listeners of the Buttons
+     */
     private void prepareListeners() {
 
         arcade.addCaptureListener(new ChangeListener() {
@@ -73,6 +82,9 @@ public class MainMenu extends Menu{
         });
     }
 
+    /**
+     * Method to initialize buttons
+     */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
         arcade =bh.getButton(new Texture(Gdx.files.internal("button-startgame.png")),300,1150);
@@ -94,8 +106,10 @@ public class MainMenu extends Menu{
     public void render(float delta){
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        BackButton();
         stage.act();
         stage.draw();
+
     }
 
     @Override
@@ -107,5 +121,9 @@ public class MainMenu extends Menu{
     public void dispose() {
         stage.dispose();
     }
-
+    private void BackButton() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            main.setScreen(new LoginMenu(main));
+        }
+    }
 }

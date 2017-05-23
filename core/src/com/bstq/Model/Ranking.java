@@ -1,7 +1,6 @@
-package com.bstq.Service;
+package com.bstq.Model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Jose on 19/05/2017.

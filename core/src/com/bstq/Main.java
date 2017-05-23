@@ -1,10 +1,8 @@
 package com.bstq;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.bstq.Service.User;
+import com.bstq.Model.User;
 import com.bstq.view.LoginMenu;
-import com.bstq.view.MainMenu;
 
 public class Main extends Game {
 	User userLoged;

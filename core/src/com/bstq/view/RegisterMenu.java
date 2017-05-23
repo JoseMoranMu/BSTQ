@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -17,7 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.bstq.Main;
-import com.bstq.Service.UsersDAO;
+import com.bstq.Model.UsersDAO;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +24,7 @@ import java.util.regex.Pattern;
  * Created by Jose on 17/05/2017.
  */
 
-public class SignUpMenu extends Menu {
+public class RegisterMenu extends Menu {
     final Main main;
     TextField userName,email,pass,repeatPass;
     Label labelUser, labelEmail, labelPass, labelRepeat;
@@ -34,7 +32,7 @@ public class SignUpMenu extends Menu {
     Stage stage;
     Skin sk;
     UsersDAO service;
-    public SignUpMenu(Main main){
+    public RegisterMenu(Main main){
         Gdx.input.setCatchBackKey(true);
         this.main=main;
         stage = new Stage();
@@ -228,6 +226,7 @@ public class SignUpMenu extends Menu {
         stage.draw();
         backButton();
     }
+
     private void backButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             showLogin();

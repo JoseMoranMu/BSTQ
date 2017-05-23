@@ -19,13 +19,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Timer;
 import com.bstq.Main;
-import com.bstq.Service.UsersDAO;
+import com.bstq.Model.UsersDAO;
 import com.bstq.view.ButtonHandler;
 import com.bstq.view.MainMenu;
-import com.bstq.view.MenuArcade;
 
 import java.net.UnknownHostException;
-import java.util.TimerTask;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveBy;
 

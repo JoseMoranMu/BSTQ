@@ -1,7 +1,6 @@
 package com.bstq.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -15,12 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.bstq.Main;
-import com.bstq.Service.User;
-import com.bstq.Service.UsersDAO;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static com.badlogic.gdx.graphics.profiling.GLProfiler.listener;
+import com.bstq.Model.User;
+import com.bstq.Model.UsersDAO;
 
 /**
  * Created by alumne on 31/03/2017.
@@ -78,7 +73,7 @@ public class LoginMenu extends Menu  {
         userLabel = new Label("Email: ",sk);
         userLabel.setSize(500,100);
         userLabel.setPosition(150,1150);
-        Label passLabel = new Label("Password: ",sk);
+        passLabel = new Label("Password: ",sk);
         passLabel.setSize(500,100);
         passLabel.setPosition(150,950);
         user = new TextField("",sk);
@@ -106,7 +101,7 @@ public class LoginMenu extends Menu  {
         register.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new SignUpMenu(main));
+                main.setScreen(new RegisterMenu(main));
             }
         });
     }
@@ -163,8 +158,8 @@ public class LoginMenu extends Menu  {
      */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        login=bh.getButton(new Texture(Gdx.files.internal("button-loguin.png")),75,650);
-        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),575,650);
+        login=bh.getButton(new Texture(Gdx.files.internal("button-loguin.png")),65,650);
+        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),565,650);
     }
     @Override
     public void hide() {

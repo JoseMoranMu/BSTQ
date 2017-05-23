@@ -9,11 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.bstq.Main;
-import com.bstq.Service.Ranking;
-import com.bstq.Service.User;
-import com.bstq.Service.UsersDAO;
-
-import java.util.List;
+import com.bstq.Model.Ranking;
+import com.bstq.Model.UsersDAO;
 
 /**
  * Created by Jose on 22/05/2017.
@@ -77,10 +74,16 @@ public class RankingScreen extends Menu {
 
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        backButton();
         stage.act();
         stage.draw();
-        backButton();
 
+
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

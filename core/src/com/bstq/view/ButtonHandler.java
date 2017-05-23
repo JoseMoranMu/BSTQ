@@ -22,6 +22,14 @@ public class ButtonHandler extends Button {
     public ButtonHandler() {
 
     }
+
+    /**
+     * Method to create a Button actor,
+     * @param texture texture of the button
+     * @param x position X of the button
+     * @param y position Y of the button
+     * @return Button object
+     */
     public Boton getButton(Texture texture, int x, int y){
         TextureRegion myTextureRegion = new TextureRegion(texture);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);

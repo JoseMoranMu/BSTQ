@@ -33,19 +33,18 @@ public class MenuGeneralSettings extends Menu {
         soundSettings.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new ScreenSoundSettings(main));
+
             }
         });
         changeNickname.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new ScreenChangeNickname(main));
+
             }
         });
         changeLenguaje.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                main.setScreen(new ScreenChangeLenguaje(main));
             }
         });
 
