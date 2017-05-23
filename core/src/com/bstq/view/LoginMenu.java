@@ -75,21 +75,21 @@ public class LoginMenu extends Menu  {
      * Method to prepare Labels and TextViews of the screen
      */
     private void prepareForm() {
-        //Texture titleTexture = new Texture(Gdx.files.internal("title.png"));
-        //title = new Sprite(titleTexture);
-        //title.setPosition(200,1300);
+        Texture titleTexture = new Texture(Gdx.files.internal("title.png"));
+        title = new Sprite(titleTexture);
+        title.setPosition(200,1400);
         userLabel = new Label("Email: ",sk);
         userLabel.setSize(500,100);
-        userLabel.setPosition(150,1150);
+        userLabel.setPosition(150,1050);
         passLabel = new Label("Password: ",sk);
         passLabel.setSize(500,100);
-        passLabel.setPosition(150,950);
+        passLabel.setPosition(150,850);
         user = new TextField("",sk);
 
         pass = new TextField("",sk);
-        user.setPosition(450,1150);
+        user.setPosition(450,1050);
         user.setSize(500,100);
-        pass.setPosition(450,950);
+        pass.setPosition(450,850);
         pass.setSize(500,100);
         pass.setPasswordCharacter('*');
         pass.setPasswordMode(true);
@@ -166,8 +166,8 @@ public class LoginMenu extends Menu  {
      */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        login=bh.getButton(new Texture(Gdx.files.internal("button-login.png")),65,650);
-        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),565,650);
+        login=bh.getButton(new Texture(Gdx.files.internal("button-login.png")),65,450);
+        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),565,450);
     }
     @Override
     public void hide() {
@@ -183,9 +183,9 @@ public class LoginMenu extends Menu  {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.draw();
-       // sb.begin();
-       // title.draw(sb);
-       // sb.end();
+        sb.begin();
+        title.draw(sb);
+        sb.end();
     }
 
     @Override
@@ -196,7 +196,7 @@ public class LoginMenu extends Menu  {
     @Override
     public void dispose() {
         stage.dispose();
-        //sb.dispose();
+        sb.dispose();
 
 
     }
