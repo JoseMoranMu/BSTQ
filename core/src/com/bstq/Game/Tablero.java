@@ -32,10 +32,20 @@ public class Tablero {
         time=100;
     }
 
+    /**
+     * Get a valuef of especific position in matrix
+     * @param row row
+     * @param column column
+     * @return value int
+     */
     public int getCell(int row,int column){
         return tabla[row][column];
     }
 
+    /**
+     * Move up all the content of a specific column
+     * @param col column to move
+     */
     public void moveUpColumn(int col) {
         int count = 0;
         int temp;
@@ -49,6 +59,10 @@ public class Tablero {
         }
     }
 
+    /**
+     * Move down all the content of a specific column
+     * @param col column to move
+     */
     public void moveDownColumn(int col) {
         int count = tabla[col].length - 1;
         int temp;
@@ -62,6 +76,10 @@ public class Tablero {
         }
     }
 
+    /**
+     * Move left all the content of a specific row
+     * @param row
+     */
     public void moveLeftRow(int row) {
         int count = 0;
         int temp;
@@ -75,6 +93,10 @@ public class Tablero {
         }
     }
 
+    /**
+     * Move right all the content of a specific row
+     * @param row
+     */
     public void moveRigthRow(int row) {
         int count = tabla.length - 1;
         int temp;
@@ -89,6 +111,11 @@ public class Tablero {
         }
     }
 
+    /**
+     * Checks if there is a coincident horizontaly and verticaly
+     * @return true if some row or column have the same value in their cells
+     *         false other wise
+     */
     public boolean check() {
         boolean b = false;
         if (checkHorizontal() || checkVertical()) {
@@ -97,6 +124,9 @@ public class Tablero {
         return b;
     }
 
+    /**
+     * Set in matrix all the content randomly
+     */
     public void generateAllContent() {
         LoadContent();
         Random rndm = new Random();
@@ -111,6 +141,9 @@ public class Tablero {
         }
     }
 
+    /**
+     * Load all the content
+     */
     private void LoadContent() {
         for(int i=0;i<36;i++){
             if(a<12){
@@ -126,6 +159,9 @@ public class Tablero {
 
     }
 
+    /**
+     * Generate content for the cells where are explosions
+     */
     public void generateNewContent() {
         int contador=0;
         for (int i = 0; i < size; i++) {
@@ -142,17 +178,11 @@ public class Tablero {
         }
     }
 
-    public void printTablero() {
-        System.out.println("----------------------");
-        for (int i = 0; i < size; i++) {
-            for (int p = 0; p < size; p++) {
-                System.out.print("[" + tabla[i][p] + "] ");
-            }
-            System.out.println("");
-        }
-        System.out.println("----------------------");
-    }
-
+    /**
+     * Checks if some row has all his cells the same value
+     * @return true if some row has all his cells the same value
+     *         false otherwise
+     */
     private boolean checkHorizontal() {
         boolean b = false;
         int cont = 0;
@@ -173,7 +203,11 @@ public class Tablero {
         }
         return b;
     }
-
+    /**
+     * Checks if some column has all his cells the same value
+     * @return true if some column has all his cells the same value
+     *         false otherwise
+     */
     private boolean checkVertical() {
         boolean b = false;
         int cont = 0;
@@ -198,6 +232,10 @@ public class Tablero {
 
         return points;
     }
+
+    /**
+     * Start timer
+     */
     public void startTimer(){
         crono = new TimerTask() {
             @Override

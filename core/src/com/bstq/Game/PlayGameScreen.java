@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -35,30 +36,27 @@ public class PlayGameScreen extends TableGame {
 
     final Main main;
     Stage stage;
-    Texture casillaTextura,tuercaBlue,tuercaRead,explode;
+    Texture casillaTextura,tuercaBlue,tuercaRead,explode, background;
     Table t,tc,bt;
     Barril bar;
     Tablero tablero;
+    Sprite backgroundS;
     SpriteBatch b;
     BitmapFont font;
     Skin sk;
     UsersDAO service;
+
     public PlayGameScreen(final Main main){
-        service = new UsersDAO();
-        sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
-        sk.getFont("default-font").getData().setScale(3f,3f);
-        font = new BitmapFont();
-        font.getData().setScale(5,5);
-        b= new SpriteBatch();
-        Gdx.input.setCatchBackKey(true);
         this.main=main;
-        tablero = new Tablero(6);
-        tablero.generateAllContent();
-        tablero.startTimer();
+        Gdx.input.setCatchBackKey(true);
+        background = new Texture("space.png");
+        backgroundS = new Sprite(background);
+        backgroundS.setSize(1080,1920);
+        service = new UsersDAO();
         stage = new Stage();
-        tuercaBlue = new Texture("blueGear.png");
-        tuercaRead = new Texture("redGear.png");
-        explode = new Texture("explode.png");
+        prepareStyle();
+        createLogicTable();
+        initTextures();
         createTableGame();
         createTableContent();
         createTableButtons();
@@ -67,6 +65,38 @@ public class PlayGameScreen extends TableGame {
         stage.addActor(bt);
     }
 
+    /**
+     * Method to prepare style
+     */
+    private void prepareStyle() {
+        sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
+        sk.getFont("default-font").getData().setScale(3f,3f);
+        font = new BitmapFont();
+        font.getData().setScale(5,5);
+        b= new SpriteBatch();
+    }
+
+    /**
+     * Method to initialize textures
+     */
+    private void initTextures() {
+        tuercaBlue = new Texture("blueGear.png");
+        tuercaRead = new Texture("redGear.png");
+        explode = new Texture("explode.png");
+    }
+
+    /**
+     * Method to initialize
+     */
+    private void createLogicTable() {
+        tablero = new Tablero(6);
+        tablero.generateAllContent();
+        tablero.startTimer();
+    }
+
+    /**
+     * Method to create Buttons and their listeners
+     */
     private void createTableButtons() {
         bt = new Table();
         bt.setPosition(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
@@ -136,6 +166,11 @@ public class PlayGameScreen extends TableGame {
 
         }
 
+    /**
+     * Method to fill the table with the info given of Tablero class checks if
+     * there is a full line
+     * @return true if there is a full line/ false otherwise
+     */
     private boolean  refreshTable() {
         tc.clearChildren();
         boolean bo=tablero.check();
@@ -164,13 +199,18 @@ public class PlayGameScreen extends TableGame {
     }
 
 
-
+    /**
+     * Initialize table content
+     */
     private void createTableContent() {
         tc = new Table();
         refreshTable();
 
     }
 
+    /**
+     * Create table texture
+     */
     private void createTableGame() {
         t = new Table();
         casillaTextura = new Texture("casillafin.png");
@@ -192,7 +232,9 @@ public class PlayGameScreen extends TableGame {
         BackButton();
         Gdx.gl.glClearColor(0.0f, 153f/255.0f, 0.0f, 0.0f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         b.begin();
+        backgroundS.draw(b);
         font.draw(b,"Points: "+Integer.toString(tablero.getPoints()),100,1600);
         font.draw(b,"Time: "+Integer.toString(tablero.getTime()),100,1500);
         b.end();
@@ -207,6 +249,9 @@ public class PlayGameScreen extends TableGame {
 
     }
 
+    /**
+     * Method to execute end of game check the points
+     */
     private void endGame() {
         int points = tablero.getPoints();
         String s;
@@ -220,6 +265,9 @@ public class PlayGameScreen extends TableGame {
         }
     }
 
+    /**
+     * Method to execute animation of explosion
+     */
     private void destroyContent() {
         Timer.schedule(new Timer.Task() {
             @Override
@@ -230,7 +278,9 @@ public class PlayGameScreen extends TableGame {
         }, 0.5f);
     }
 
-
+    /**
+     * Method to go back
+     */
     private void BackButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
             main.setScreen(new MainMenu(main));
@@ -275,6 +325,12 @@ public class PlayGameScreen extends TableGame {
         explode.dispose();
 
     }
+
+    /**
+     * Method to show a dialog message
+     * @param s message to show
+     * @param exit boolean to registern new record or not
+     */
     private void showDialog(String s, boolean exit) {
         Label label = new Label(s, sk);
         label.setWrap(true);
@@ -301,6 +357,10 @@ public class PlayGameScreen extends TableGame {
 
     }
 
+    /**
+     * Method to register new points
+     * @throws UnknownHostException if there is a connection error
+     */
     private void registerPoints() throws UnknownHostException {
             service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
             main.getUserLoged().setMaxScore(tablero.getPoints());
