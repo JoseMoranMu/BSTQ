@@ -36,7 +36,7 @@ public class PlayGameScreen extends TableGame {
 
     final Main main;
     Stage stage;
-    Texture casillaTextura,tuercaBlue,tuercaRead,explode;
+    Texture casillaTextura,tuercaBlue,tuercaRead,explode, lightning;
     Table t,tc,bt;
     Barril bar;
     Tablero tablero;
@@ -83,6 +83,7 @@ public class PlayGameScreen extends TableGame {
         tuercaBlue = new Texture("blueGear.png");
         tuercaRead = new Texture("redGear.png");
         explode = new Texture("explode.png");
+        lightning = new Texture("lightning.png");
     }
 
     /**
@@ -188,6 +189,8 @@ public class PlayGameScreen extends TableGame {
 
                 }else if(tablero.getCell(a,b)==88){
                     tc.add(new Barril(explode,p,i,0));
+                }else if(tablero.getCell(a,b)==3){
+                    tc.add(new Barril(lightning,p,i,0));
                 }
                 b++;
             }
@@ -261,7 +264,7 @@ public class PlayGameScreen extends TableGame {
             showDialog(s,true);
         }else{
             s ="Time's up! \n"+"You points : "+points;
-            showDialog(s,true);
+            showDialog(s,false);
         }
     }
 
@@ -340,12 +343,12 @@ public class PlayGameScreen extends TableGame {
                 this.clear();
                 if(object.equals(true)){
                     try {
-                    registerPoints();
-                } catch (UnknownHostException e) {
-
-                    showDialog("Error connecting to Server \n failed to save points",false);
-                        this.clear();
-                }
+                        service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
+                    } catch (UnknownHostException e) {
+                        e.printStackTrace();
+                    }
+                    main.getUserLoged().setMaxScore(tablero.getPoints());
+                    main.setScreen(new MainMenu(main));
                 }
             }
         };
@@ -357,13 +360,4 @@ public class PlayGameScreen extends TableGame {
 
     }
 
-    /**
-     * Method to register new points
-     * @throws UnknownHostException if there is a connection error
-     */
-    private void registerPoints() throws UnknownHostException {
-            service.registPoints(main.getUserLoged().getId(),tablero.getPoints());
-            main.getUserLoged().setMaxScore(tablero.getPoints());
-            main.setScreen(new MainMenu(main));
-    }
 }

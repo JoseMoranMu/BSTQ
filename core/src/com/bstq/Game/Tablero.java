@@ -167,8 +167,17 @@ public class Tablero {
         for (int i = 0; i < size; i++) {
             for (int p = 0; p < size; p++) {
                 if (tabla[i][p] == 88) {
-                    int n = (int) (Math.random() * 2)+1;
-                    tabla[i][p] = n;
+                    int n = (int) (Math.random() * 100)+1;
+                    int number;
+                    if(n>=1&&n<45){
+                        number =1;
+
+                    }else if(n>=45&&n<90){
+                        number = 2;
+                    }else{
+                        number = 3;
+                    }
+                    tabla[i][p] = number;
                     contador++;
                 }
             }
@@ -185,21 +194,29 @@ public class Tablero {
      */
     private boolean checkHorizontal() {
         boolean b = false;
-        int cont = 0;
+        int red=0;
+        int blue=0;
+        int light=0;
         for (int i = 0; i < size; i++) {
-            for (int p = 1; p < size; p++) {
-                if ((tabla[i][p - 1] == tabla[i][p])&&(tabla[i][p]!=0)) {
-                    cont++;
+            for (int p = 0; p < size; p++) {
+                if (tabla[i][p] == 1){
+                    blue++;
+                }else if (tabla[i][p] == 2){
+                    red++;
+                }else if(tabla[i][p] == 3){
+                    light++;
                 }
             }
-            if (cont == 5) {
+            if (red+light == 6|| blue+light==6) {
                 for (int p = 0; p < size; p++) {
                     tabla[i][p] = 88;
 
                 }
                 b = true;
             }
-            cont = 0;
+            red = 0;
+            blue = 0;
+            light = 0;
         }
         return b;
     }
@@ -210,21 +227,29 @@ public class Tablero {
      */
     private boolean checkVertical() {
         boolean b = false;
-        int cont = 0;
+        int red=0;
+        int blue=0;
+        int light=0;
         for (int p = 0; p < size; p++) {
-            for (int i = 1; i < size; i++) {
-                if (tabla[i - 1][p] == tabla[i][p]&&(tabla[i][p]!=0)) {
-                    cont++;
+            for (int i = 0; i < size; i++) {
+                if (tabla[i][p] == 1){
+                    blue++;
+                }else if (tabla[i][p] == 2){
+                    red++;
+                }else if(tabla[i][p] == 3){
+                    light++;
                 }
             }
-            if (cont == 5) {
+            if (red+light ==6|| blue+light==6) {
                 for (int i = 0; i < size; i++) {
                     tabla[i][p] = 88;
 
                 }
                 b = true;
             }
-            cont = 0;
+            red = 0;
+            blue = 0;
+            light = 0;
         }
         return b;
     }
