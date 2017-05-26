@@ -44,6 +44,8 @@ public class LoginMenu extends Menu  {
     User u;
     Sprite title;
     SpriteBatch sb;
+    Texture back;
+    Sprite background;
     public LoginMenu(Main main) {
         sb = new SpriteBatch();
         service = new UsersDAO();
@@ -52,6 +54,8 @@ public class LoginMenu extends Menu  {
         stage = new Stage();
         sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         sk.getFont("default-font").getData().setScale(3f,3f);
+        back = new Texture(Gdx.files.internal("background.jpg"));
+        background = new Sprite(back);
         prepareButtons();
         prepareListeners();
         prepareForm();
@@ -80,16 +84,16 @@ public class LoginMenu extends Menu  {
         title.setPosition(200,1400);
         userLabel = new Label("Email: ",sk);
         userLabel.setSize(500,100);
-        userLabel.setPosition(150,1050);
+        userLabel.setPosition(150,1000);
         passLabel = new Label("Password: ",sk);
         passLabel.setSize(500,100);
-        passLabel.setPosition(150,850);
+        passLabel.setPosition(150,800);
         user = new TextField("",sk);
 
         pass = new TextField("",sk);
-        user.setPosition(450,1050);
+        user.setPosition(450,1000);
         user.setSize(500,100);
-        pass.setPosition(450,850);
+        pass.setPosition(450,800);
         pass.setSize(500,100);
         pass.setPasswordCharacter('*');
         pass.setPasswordMode(true);
@@ -166,8 +170,8 @@ public class LoginMenu extends Menu  {
      */
     private void prepareButtons() {
         ButtonHandler bh = new ButtonHandler();
-        login=bh.getButton(new Texture(Gdx.files.internal("button-login.png")),65,450);
-        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),565,450);
+        login=bh.getButton(new Texture(Gdx.files.internal("button-login.png")),65,400);
+        register=bh.getButton(new Texture(Gdx.files.internal("button-register.png")),565,400);
     }
     @Override
     public void hide() {
@@ -181,11 +185,12 @@ public class LoginMenu extends Menu  {
     public void render(float delta){
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        stage.act();
-        stage.draw();
         sb.begin();
+        background.draw(sb);
         title.draw(sb);
         sb.end();
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -197,8 +202,7 @@ public class LoginMenu extends Menu  {
     public void dispose() {
         stage.dispose();
         sb.dispose();
-
-
+        back.dispose();
     }
 
 }

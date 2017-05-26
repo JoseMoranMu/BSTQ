@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -20,10 +22,14 @@ public class MainMenu extends Menu{
     final Main main;
     Button arcade,survivor,multiplayer, settings, exit;
     Stage stage;
-
+    Texture back;
+    Sprite background;
+    SpriteBatch sb;
     public MainMenu(final Main main) {
         Gdx.input.setCatchBackKey(true);
-
+        sb = new SpriteBatch();
+        back = new Texture(Gdx.files.internal("background.jpg"));
+        background = new Sprite(back);
         this.main=main;
         stage = new Stage();
         prepareButtons();
@@ -107,6 +113,9 @@ public class MainMenu extends Menu{
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         BackButton();
+        sb.begin();
+        background.draw(sb);
+        sb.end();
         stage.act();
         stage.draw();
 
@@ -119,7 +128,10 @@ public class MainMenu extends Menu{
     }
     @Override
     public void dispose() {
+
         stage.dispose();
+        sb.dispose();
+        back.dispose();
     }
     private void BackButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {

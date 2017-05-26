@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -23,9 +26,16 @@ public class RankingScreen extends Menu {
     UsersDAO service;
     Stage stage;
     Skin sk;
+    Texture back;
+    Sprite background;
+    SpriteBatch sb;
+
     public RankingScreen(Main main){
         Gdx.input.setCatchBackKey(true);
         this.main = main;
+        sb = new SpriteBatch();
+        back = new Texture(Gdx.files.internal("background.jpg"));
+        background = new Sprite(back);
         service = new UsersDAO();
         stage = new Stage();
         sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
@@ -38,11 +48,12 @@ public class RankingScreen extends Menu {
 
     private void printList() {
         Label title = new Label("RANKING",sk);
+        title.setFontScale(5f);
         int x =400;
         int y = 1500;
         Label contentN;
         Label contentP;
-        title.setPosition(x,y);
+        title.setPosition(x-50,y);
         title.setColor(Color.YELLOW);
         stage.addActor(title);
         y-=100;
@@ -75,6 +86,9 @@ public class RankingScreen extends Menu {
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         backButton();
+        sb.begin();
+        background.draw(sb);
+        sb.end();
         stage.act();
         stage.draw();
 
@@ -90,6 +104,8 @@ public class RankingScreen extends Menu {
     public void dispose() {
 
         stage.dispose();
+        sb.dispose();
+        back.dispose();
 
     }
 

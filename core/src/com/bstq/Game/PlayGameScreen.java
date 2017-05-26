@@ -36,24 +36,24 @@ public class PlayGameScreen extends TableGame {
 
     final Main main;
     Stage stage;
-    Texture casillaTextura,tuercaBlue,tuercaRead,explode, background;
+    Texture casillaTextura,tuercaBlue,tuercaRead,explode;
     Table t,tc,bt;
     Barril bar;
     Tablero tablero;
-    Sprite backgroundS;
     SpriteBatch b;
     BitmapFont font;
     Skin sk;
     UsersDAO service;
+    Texture back;
+    Sprite background;
 
     public PlayGameScreen(final Main main){
         this.main=main;
         Gdx.input.setCatchBackKey(true);
-        background = new Texture("space.png");
-        backgroundS = new Sprite(background);
-        backgroundS.setSize(1080,1920);
         service = new UsersDAO();
         stage = new Stage();
+        back = new Texture(Gdx.files.internal("background.jpg"));
+        background = new Sprite(back);
         prepareStyle();
         createLogicTable();
         initTextures();
@@ -234,7 +234,7 @@ public class PlayGameScreen extends TableGame {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         b.begin();
-        backgroundS.draw(b);
+        background.draw(b);
         font.draw(b,"Points: "+Integer.toString(tablero.getPoints()),100,1600);
         font.draw(b,"Time: "+Integer.toString(tablero.getTime()),100,1500);
         b.end();
@@ -323,7 +323,7 @@ public class PlayGameScreen extends TableGame {
         tuercaBlue.dispose();
         tuercaRead.dispose();
         explode.dispose();
-
+        back.dispose();
     }
 
     /**

@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -32,8 +34,15 @@ public class RegisterMenu extends Menu {
     Stage stage;
     Skin sk;
     UsersDAO service;
+    Texture back;
+    Sprite background;
+    SpriteBatch sb;
+
     public RegisterMenu(Main main){
         Gdx.input.setCatchBackKey(true);
+        sb = new SpriteBatch();
+        back = new Texture(Gdx.files.internal("background.jpg"));
+        background = new Sprite(back);
         this.main=main;
         stage = new Stage();
         service = new UsersDAO();
@@ -215,13 +224,17 @@ public class RegisterMenu extends Menu {
     public void hide() {
         Gdx.input.setInputProcessor(null);
         stage.dispose();
-
+        sb.dispose();
+        back.dispose();
     }
 
     @Override
     public void render(float delta){
         Gdx.gl.glClearColor(0, 0.5f, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        sb.begin();
+        background.draw(sb);
+        sb.end();
         stage.act();
         stage.draw();
         backButton();
