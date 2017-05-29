@@ -1,6 +1,8 @@
 package com.bstq.view;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -46,6 +48,8 @@ public class LoginMenu extends Menu  {
     SpriteBatch sb;
     Texture back;
     Sprite background;
+    Sound buttonSound, warningSound, succesSound;
+
     public LoginMenu(Main main) {
         sb = new SpriteBatch();
         service = new UsersDAO();
@@ -56,10 +60,21 @@ public class LoginMenu extends Menu  {
         sk.getFont("default-font").getData().setScale(3f,3f);
         back = new Texture(Gdx.files.internal("background.jpg"));
         background = new Sprite(back);
+        buttonSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/beep.mp3", Files.FileType.Internal) );
+        prepareSounds();
         prepareButtons();
         prepareListeners();
         prepareForm();
         fillStage();
+    }
+
+    /**
+     * Method to prepare Sounds
+     */
+    private void prepareSounds() {
+        buttonSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/beep.mp3", Files.FileType.Internal) );
+        warningSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/warning.wav", Files.FileType.Internal) );
+        succesSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/succes.wav", Files.FileType.Internal) );
     }
 
     /**
@@ -106,6 +121,7 @@ public class LoginMenu extends Menu  {
         login.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 checkLogin();
 
             }
@@ -113,6 +129,7 @@ public class LoginMenu extends Menu  {
         register.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 main.setScreen(new RegisterMenu(main));
             }
         });
@@ -130,12 +147,14 @@ public class LoginMenu extends Menu  {
 
             if (u == null) {
                 showDialog("Login fail", false);
+                warningSound.play();
             } else if (u.getId()==0){
-
+                warningSound.play();
                 showDialog("Error connecting to server", false);
 
             }else{
                 showDialog("Login success", true);
+                succesSound.play();
             }
         }
     }
@@ -203,6 +222,9 @@ public class LoginMenu extends Menu  {
         stage.dispose();
         sb.dispose();
         back.dispose();
+        buttonSound.dispose();
+        warningSound.dispose();
+        succesSound.dispose();
     }
 
 }

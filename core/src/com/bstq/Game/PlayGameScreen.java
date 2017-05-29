@@ -1,8 +1,11 @@
 package com.bstq.Game;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -46,7 +49,8 @@ public class PlayGameScreen extends TableGame {
     UsersDAO service;
     Texture back;
     Sprite background;
-
+    Music mp3Music;
+    Sound explosion;
     public PlayGameScreen(final Main main){
         this.main=main;
         Gdx.input.setCatchBackKey(true);
@@ -54,6 +58,9 @@ public class PlayGameScreen extends TableGame {
         stage = new Stage();
         back = new Texture(Gdx.files.internal("background.jpg"));
         background = new Sprite(back);
+        mp3Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
+        explosion = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/explode.mp3", Files.FileType.Internal) );
+        mp3Music.play();
         prepareStyle();
         createLogicTable();
         initTextures();
@@ -258,7 +265,8 @@ public class PlayGameScreen extends TableGame {
     private void endGame() {
         int points = tablero.getPoints();
         String s;
-        System.out.println(main.getUserLoged().toString());
+        mp3Music.stop();
+
         if(points>main.getUserLoged().getMaxScore()){
             s ="You have a new record : "+points;
             showDialog(s,true);
@@ -272,6 +280,7 @@ public class PlayGameScreen extends TableGame {
      * Method to execute animation of explosion
      */
     private void destroyContent() {
+        explosion.play();
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -285,7 +294,9 @@ public class PlayGameScreen extends TableGame {
      * Method to go back
      */
     private void BackButton() {
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {
+            mp3Music.stop();
             main.setScreen(new MainMenu(main));
         }
     }
@@ -327,6 +338,8 @@ public class PlayGameScreen extends TableGame {
         tuercaRead.dispose();
         explode.dispose();
         back.dispose();
+        mp3Music.dispose();
+        explosion.dispose();
     }
 
     /**
@@ -348,8 +361,9 @@ public class PlayGameScreen extends TableGame {
                         e.printStackTrace();
                     }
                     main.getUserLoged().setMaxScore(tablero.getPoints());
-                    main.setScreen(new MainMenu(main));
+
                 }
+                main.setScreen(new MainMenu(main));
             }
         };
         d.padTop(50).padBottom(50).padLeft(50).padRight(50);

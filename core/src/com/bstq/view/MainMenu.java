@@ -1,7 +1,9 @@
 package com.bstq.view;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -25,6 +27,8 @@ public class MainMenu extends Menu{
     Texture back;
     Sprite background;
     SpriteBatch sb;
+    Sound buttonSound;
+
     public MainMenu(final Main main) {
         Gdx.input.setCatchBackKey(true);
         sb = new SpriteBatch();
@@ -32,6 +36,7 @@ public class MainMenu extends Menu{
         background = new Sprite(back);
         this.main=main;
         stage = new Stage();
+        buttonSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/beep.mp3", Files.FileType.Internal) );
         prepareButtons();
         prepareListeners();
         fillStage();
@@ -56,12 +61,14 @@ public class MainMenu extends Menu{
         arcade.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 main.setScreen(new PlayGameScreen(main));
             }
         });
         survivor.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 main.setScreen(new RankingScreen(main));
             }
         });
@@ -82,6 +89,7 @@ public class MainMenu extends Menu{
         exit.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 main.dispose();
                 Gdx.app.exit();
             }
@@ -132,6 +140,7 @@ public class MainMenu extends Menu{
         stage.dispose();
         sb.dispose();
         back.dispose();
+        buttonSound.dispose();
     }
     private void BackButton() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)) {

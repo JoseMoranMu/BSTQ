@@ -1,7 +1,9 @@
 package com.bstq.view;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -37,6 +39,7 @@ public class RegisterMenu extends Menu {
     Texture back;
     Sprite background;
     SpriteBatch sb;
+    Sound buttonSound, warningSound, succesSound;
 
     public RegisterMenu(Main main){
         Gdx.input.setCatchBackKey(true);
@@ -48,10 +51,20 @@ public class RegisterMenu extends Menu {
         service = new UsersDAO();
         sk = new Skin(Gdx.files.internal("uiskin.json"),new TextureAtlas(Gdx.files.internal("uiskin.atlas")));
         sk.getFont("default-font").getData().setScale(3f,3f);
+        prepareSounds();
         initLabels();
         initFields();
         initButton();
         fillStage();
+    }
+
+    /**
+     * Method to prepare Sounds
+     */
+    private void prepareSounds() {
+        buttonSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/beep.mp3", Files.FileType.Internal) );
+        warningSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/warning.wav", Files.FileType.Internal) );
+        succesSound = Gdx.audio.newSound( Gdx.files.getFileHandle("sounds/succes.wav", Files.FileType.Internal) );
     }
 
     /**
@@ -78,6 +91,7 @@ public class RegisterMenu extends Menu {
         singin.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                buttonSound.play();
                 singUp();
             }
         });
@@ -97,28 +111,35 @@ public class RegisterMenu extends Menu {
         String passwordR = repeatPass.getText();
         if (!user.equals("") && !userEmail.equals("") && !password.equals("") && !passwordR.equals("")) {
             if (validate(userEmail, validateEmail) == false) {
+                warningSound.play();
                 showDialog("You must enter a valid email", false);
             } else if (validate(password, validatePassword) == false) {
+                warningSound.play();
                 showDialog("The password must be 4 to 20 alphanumeric characters", false);
             } else if (validate(userEmail, validateEmail) == true && validate(password, validatePassword) == true) {
                 if (password.equals(passwordR)) {
                     String response = service.singUp(user, userEmail, password);
                     if(response.equals("connectionError")){
+                        warningSound.play();
                         showDialog("Error connecting to server \n user not registered", false);
                     }else if (response.equals("ok")) {
                         showDialog("User signed up correctly", true);
-
+                        succesSound.play();
                     } else if (response.equals("user_name")) {
+                        warningSound.play();
                         showDialog("User name already exist", false);
                     } else if (response.equals("email")) {
+                        warningSound.play();
                         showDialog("Email allready in use", false);
                     }
                 } else {
+                    warningSound.play();
                     showDialog("Password don't match", false);
                 }
             }
 
         } else {
+            warningSound.play();
             showDialog("Complete all the fields to sign up", false);
         }
     }
