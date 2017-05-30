@@ -23,9 +23,10 @@ public class Tablero {
     int time;
     TimerTask crono;
     Timer timer;
-
+    boolean hasLightning;
     public Tablero(int size) {
         this.size=size;
+        this.hasLightning=false;
         tabla = new int[size][size];
         content = new ArrayList();
         points=0;
@@ -175,7 +176,12 @@ public class Tablero {
                     }else if(n>=45&&n<90){
                         number = 2;
                     }else{
-                        number = 3;
+                        if(hasLightning){
+                            number=1;
+                        }else{
+                            number = 3;
+                            hasLightning=true;
+                        }
                     }
                     tabla[i][p] = number;
                     contador++;
@@ -213,6 +219,7 @@ public class Tablero {
 
                 }
                 b = true;
+                if(light!=0) this.hasLightning=false;
             }
             red = 0;
             blue = 0;
@@ -246,6 +253,7 @@ public class Tablero {
 
                 }
                 b = true;
+                if(light!=0) this.hasLightning=false;
             }
             red = 0;
             blue = 0;
