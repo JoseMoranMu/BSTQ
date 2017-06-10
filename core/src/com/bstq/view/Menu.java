@@ -22,11 +22,14 @@ public class Menu implements Screen,InputProcessor {
     public void show() {
 
     }
-
     @Override
     public void render(float delta) {
 
     }
+    @Override
+    public void dispose() {
+    }
+
 
     @Override
     public void resize(int width, int height) {
@@ -47,9 +50,6 @@ public class Menu implements Screen,InputProcessor {
 
     }
 
-    @Override
-    public void dispose() {
-    }
 
     @Override
     public boolean keyDown(int keycode) {

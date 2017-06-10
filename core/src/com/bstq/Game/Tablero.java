@@ -24,6 +24,7 @@ public class Tablero {
     TimerTask crono;
     Timer timer;
     boolean hasLightning;
+
     public Tablero(int size) {
         this.size=size;
         this.hasLightning=false;
